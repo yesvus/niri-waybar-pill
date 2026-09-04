@@ -14,9 +14,9 @@ import html
 
 SHM_DIR = "/dev/shm/niri-tabs"
 NUM_SLOTS = 6
-MAX_TITLE_LEN = 12
+MAX_TITLE_LEN = 10
 
-def fade_title(title, max_len=12):
+def fade_title(title, max_len=10):
     title = html.escape(title)
     if len(title) <= max_len:
         return title
@@ -117,8 +117,7 @@ def update_tabs():
         right_overflow = total - (start + len(visible))
 
     total_workspaces = len(wss)
-    # Pagination arrows: hide when <2 workspaces or <2 windows on active workspace
-    show_pagination = (total >= 2) and (total_workspaces >= 2 or left_overflow > 0 or right_overflow > 0)
+
 
     state_sig = (
         total_workspaces,
@@ -135,26 +134,45 @@ def update_tabs():
 
     os.makedirs(SHM_DIR, exist_ok=True)
 
-    # 1. Left pagination arrow (‹)
+    # 1. Left & right pagination arrows and overflow fades
     page_prev_file = os.path.join(SHM_DIR, "page-prev.json")
     page_next_file = os.path.join(SHM_DIR, "page-next.json")
+    fade_left_file = os.path.join(SHM_DIR, "fade-left.json")
+    fade_right_file = os.path.join(SHM_DIR, "fade-right.json")
 
-    if show_pagination:
-        prev_tip = f"Scroll left ({left_overflow} window(s) to the left)" if left_overflow > 0 else "Scroll left / previous window"
-        next_tip = f"Scroll right ({right_overflow} window(s) to the right)" if right_overflow > 0 else "Scroll right / next window"
+    # Left pagination button & fade: appear ONLY when there is left overflow
+    if left_overflow > 0:
+        prev_tip = f"Scroll left ({left_overflow} window(s) to the left)"
         write_json(page_prev_file, {
             "text": "‹",
             "tooltip": prev_tip,
             "class": "page-prev"
         })
+        write_json(fade_left_file, {
+            "text": " ",
+            "tooltip": prev_tip,
+            "class": "fade-left"
+        })
+    else:
+        write_json(page_prev_file, {"text": "", "tooltip": "", "class": ""})
+        write_json(fade_left_file, {"text": "", "tooltip": "", "class": ""})
+
+    # Right pagination button & fade: appear ONLY when there is right overflow
+    if right_overflow > 0:
+        next_tip = f"Scroll right ({right_overflow} window(s) to the right)"
         write_json(page_next_file, {
             "text": "›",
             "tooltip": next_tip,
             "class": "page-next"
         })
+        write_json(fade_right_file, {
+            "text": " ",
+            "tooltip": next_tip,
+            "class": "fade-right"
+        })
     else:
-        write_json(page_prev_file, {"text": "", "tooltip": "", "class": ""})
         write_json(page_next_file, {"text": "", "tooltip": "", "class": ""})
+        write_json(fade_right_file, {"text": "", "tooltip": "", "class": ""})
 
     # 2. Tab slots (Tab body + Tab close button)
     for slot in range(NUM_SLOTS):

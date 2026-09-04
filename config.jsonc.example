@@ -48,12 +48,14 @@
         "orientation": "horizontal",
         "modules": [
             "custom/page-prev",
+            "custom/fade-left",
             "group/tab-0",
             "group/tab-1",
             "group/tab-2",
             "group/tab-3",
             "group/tab-4",
             "group/tab-5",
+            "custom/fade-right",
             "custom/page-next"
         ]
     },
@@ -64,6 +66,26 @@
         "interval": "once",
         "hide-empty-text": true,
         "on-click": "niri msg action focus-column-left",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+    "custom/fade-left": {
+        "exec": "cat /dev/shm/niri-tabs/fade-left.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "niri msg action focus-column-left",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+    "custom/fade-right": {
+        "exec": "cat /dev/shm/niri-tabs/fade-right.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "niri msg action focus-column-right",
         "on-scroll-up": "niri msg action focus-column-left",
         "on-scroll-down": "niri msg action focus-column-right"
     },

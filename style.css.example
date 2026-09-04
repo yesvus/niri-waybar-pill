@@ -177,6 +177,7 @@ window#waybar.empty #windowpill {
 /* Tab body: The full Firefox tab pill (single container) */
 #custom-tab-0, #custom-tab-1, #custom-tab-2,
 #custom-tab-3, #custom-tab-4, #custom-tab-5 {
+    min-width: 112px;
     background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 6px;
@@ -187,6 +188,33 @@ window#waybar.empty #windowpill {
     transition: background-color 150ms cubic-bezier(0.215, 0.61, 0.355, 1),
                 border-color 150ms cubic-bezier(0.215, 0.61, 0.355, 1),
                 color 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+/* Overflow scroll fade indicators at ends of scroll area (right of <, left of >) */
+#custom-fade-left {
+    background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.08) 100%);
+    min-width: 20px;
+    margin: 1px 0;
+    padding: 0;
+    border-radius: 0;
+    transition: background 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+#custom-fade-right {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.08) 0%, transparent 100%);
+    min-width: 20px;
+    margin: 1px 0;
+    padding: 0;
+    border-radius: 0;
+    transition: background 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+#custom-fade-left:hover {
+    background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.18) 100%);
+}
+
+#custom-fade-right:hover {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.18) 0%, transparent 100%);
 }
 
 /* Tab body hover: entire tab highlights as one single unit */
