@@ -1,14 +1,62 @@
 {
-    // Option 1: Workspace-Filtered Compact Taskbar (Each window as a distinct pill)
-    "custom/niritaskbar": {
-        "exec": "~/.config/waybar/niri-taskbar.py",
+    // Option 1: Interactive Workspace Tabs (Click to jump to window, right-click to close)
+    "custom/niri-daemon": {
+        "exec": "~/.config/waybar/niri-tab-daemon.py",
+        "format": "",
+        "tooltip": false
+    },
+    "group/niritabs": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/tab-left",
+            "custom/tab-0", "custom/tab-1", "custom/tab-2", "custom/tab-3",
+            "custom/tab-4", "custom/tab-5", "custom/tab-6",
+            "custom/tab-right"
+        ]
+    },
+    "custom/tab-left": {
+        "exec": "cat /dev/shm/niri-tabs/tab-left.json 2>/dev/null || true",
         "return-type": "json",
-        "format": "{}",
-        "tooltip": true,
-        "on-click": "niri msg action toggle-overview",
-        "on-click-right": "niri msg action close-window",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "niri msg action focus-column-left"
+    },
+    "custom/tab-right": {
+        "exec": "cat /dev/shm/niri-tabs/tab-right.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "niri msg action focus-column-right"
+    },
+    "custom/tab-0": {
+        "exec": "cat /dev/shm/niri-tabs/tab-0.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh focus 0",
+        "on-click-right": "~/.config/waybar/niri-tab-action.sh close 0",
         "on-scroll-up": "niri msg action focus-column-left",
         "on-scroll-down": "niri msg action focus-column-right"
+    },
+    // (Repeat custom/tab-1 through custom/tab-6 with their respective slot numbers)
+
+    // Option 1b: Window Controls (Maximize / Close focused window)
+    "group/wincontrols": {
+        "orientation": "horizontal",
+        "modules": ["custom/win-maximize", "custom/win-close"]
+    },
+    "custom/win-maximize": {
+        "format": "󰘖",
+        "tooltip": "Maximize / Restore Column",
+        "on-click": "niri msg action maximize-column"
+    },
+    "custom/win-close": {
+        "format": "",
+        "tooltip": "Close Window",
+        "on-click": "niri msg action close-window"
     },
 
     // Option 2: Floating Window Pill (Title + Window Count Radar + Maximize/Close Controls)

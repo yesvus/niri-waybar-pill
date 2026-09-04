@@ -1,11 +1,90 @@
 /* ==========================================================================
-   Workspace-Filtered Compact Taskbar (`custom/niritaskbar`)
+   Interactive Niri Taskbar Pills (`group/niritabs`)
    ========================================================================== */
-#custom-niritaskbar {
+#niritabs {
     background-color: transparent;
+    padding: 1px 10px;
+}
+
+#custom-tab-left,
+#custom-tab-right,
+#custom-tab-0,
+#custom-tab-1,
+#custom-tab-2,
+#custom-tab-3,
+#custom-tab-4,
+#custom-tab-5,
+#custom-tab-6 {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 5px; /* Compact pill with reduced radius */
+    padding: 1px 7px;
+    margin: 1px 2px;
     font-size: 8pt;
     font-weight: normal;
+    color: rgba(222, 222, 222, 0.65);
+}
+
+#custom-tab-left:hover,
+#custom-tab-right:hover,
+#custom-tab-0:hover,
+#custom-tab-1:hover,
+#custom-tab-2:hover,
+#custom-tab-3:hover,
+#custom-tab-4:hover,
+#custom-tab-5:hover,
+#custom-tab-6:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+}
+
+#custom-tab-0.active,
+#custom-tab-1.active,
+#custom-tab-2.active,
+#custom-tab-3.active,
+#custom-tab-4.active,
+#custom-tab-5.active,
+#custom-tab-6.active {
+    background-color: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    font-weight: bold;
+}
+
+#custom-tab-left,
+#custom-tab-right {
+    color: #888888;
+    padding: 1px 5px;
+}
+
+/* Window Controls (Maximize / Close) */
+#wincontrols {
+    background-color: transparent;
     padding: 1px 10px;
+}
+
+#custom-win-maximize,
+#custom-win-close {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 5px;
+    padding: 1px 7px;
+    margin: 1px 2px;
+    font-size: 8pt;
+    font-weight: normal;
+    color: rgba(222, 222, 222, 0.55);
+}
+
+#custom-win-maximize:hover {
+    background-color: rgba(97, 175, 239, 0.18);
+    border: 1px solid rgba(97, 175, 239, 0.35);
+    color: #61afef;
+}
+
+#custom-win-close:hover {
+    background-color: rgba(224, 108, 117, 0.18);
+    border: 1px solid rgba(224, 108, 117, 0.35);
+    color: #e06c75;
 }
 
 /* ==========================================================================

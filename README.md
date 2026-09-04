@@ -8,20 +8,19 @@ Designed for users who want borderless, CSD-free terminal windows without sacrif
 
 ## What's Included
 
-### 1. Workspace-Filtered Compact Taskbar (`niri-taskbar.py`) ⭐ *(New)*
-* **Workspace-Aware:** Only renders windows that belong to the **currently active workspace** (doesn't dump all windows from other workspaces onto your bar).
-* **Non-Grouped (Windows Style):** Every window is its own separate, distinct pill (not merged into one app bundle like macOS).
-* **Compact & Fixed Width:** Each tab is formatted to a fixed width (icon + truncated title), giving your bar an organized, neat aesthetic.
-* **Focused Window Glow:** The active window is highlighted with bold text and a brighter pill background.
-* **Overflow Protection:** Automatically caps visible tabs to 6 and displays a `+N` indicator if your workspace ribbon has many windows, ensuring Waybar never exceeds screen width.
-* **Mouse Interactions:**
-  * **Left Click:** Opens Niri overview (`toggle-overview`) to click and jump directly to any window.
-  * **Scroll Up / Down:** Cycles focus to the left/right window on the workspace ribbon.
-  * **Right Click:** Closes the active window.
+### 1. Interactive Workspace Tabs (`niri-tab-daemon.py` & `niri-tab-action.sh`) 🚀 *(Recommended)*
+* **Direct Window Jumping:** Clicking any tab immediately focuses that specific window without having to open the workspace overview.
+* **Independent Close on Right Click:** Right-clicking any tab immediately closes that window (`niri msg action close-window --id <ID>`).
+* **Real GTK Pill Buttons:** Each tab is an individual GTK widget with rounded corners (`border-radius: 5px`), hover lighting, and focused active glow.
+* **Bidirectional Dynamic Overflow:** Displays `‹N` on the left when off-screen windows exist to the left, and `+N` on the right when off-screen windows exist to the right. Both update continuously as you navigate through windows.
+* **Integrated Window Controls (`group/wincontrols`):** Dedicated pill buttons for **Maximize / Restore** (`󰘖`) and **Close** (``) with custom hover accent colors.
 
-### 2. Workspace Window Counter (`niri-wincount.py`)
+### 2. Single-Module Workspace Taskbar (`niri-taskbar.py`)
+* Lightweight single-span taskbar for minimal setups.
+* Left-click toggles overview, scroll cycles windows.
+
+### 3. Workspace Window Counter (`niri-wincount.py`)
 * Event-driven radar daemon (`󱂬 <count>`) tracking how many windows are currently in your scrollable workspace strip.
-* Zero CPU overhead (listens directly to `niri msg -j event-stream`).
 
 ---
 
