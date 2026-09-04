@@ -1,12 +1,155 @@
-/* ==========================================================================
-   Interactive Niri Firefox-Style Tabs (`group/niritabs`)
-   ========================================================================== */
-#niritabs {
-    background-color: transparent;
+/* One font everywhere -- the clock stayed monospace for the no-jitter fix,
+   and mixing it with Inter elsewhere just looked inconsistent. */
+* {
+    font-family: "JetBrainsMono Nerd Font Mono", "Symbols Nerd Font Mono";
+    font-weight: 800;
+    font-size: 9pt;
+    min-height: 0;
+    margin: 0;
+}
+
+/* "Liquid glass": translucent instead of a flat gradient, backed by real
+   compositor blur (see the waybar layer-rule in niri's config.kdl) --
+   without that blur rule this just looks like a dim, slightly see-through
+   bar, since GTK/CSS alone can't blur what's behind the window. */
+window#waybar {
+    background-color: rgba(24, 24, 24, 0.55);
+    color: #dedede;
+}
+
+/* GTK tooltip popups -- unstyled by default, they were using the plain
+   light Adwaita tooltip theme, clashing hard with the dark bar. */
+tooltip {
+    background-color: rgba(28, 28, 28, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 2px;
+}
+
+tooltip label {
+    color: #dedede;
+}
+
+/* GTK's default theme (Adwaita) draws buttons with rounded corners, a
+   border and a shadow. Strip all of that so #workspaces button is a flat
+   square instead of a pill. */
+button {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    text-shadow: none;
+    background-image: none;
+    min-width: 0;
+}
+
+/* Flat, square blocks: no margin, no border-radius, so widgets sit flush
+   against each other with zero gap.
+   NOTE: a "group/foo" module's CSS node is #foo (the part after the slash),
+   NOT #group-foo -- that wrong prefix is why every group background was
+   silently failing to paint until now. */
+* {
+    margin: 0;
+    border-radius: 0;
+}
+
+/* Exception to the blanket reset above: the archmenu popup (a real GtkMenu,
+   spawned in this same process/screen) should stay rounded. Belongs here,
+   not just gtk-3.0/gtk.css, because that blanket "* { border-radius: 0; }"
+   is loaded by waybar itself and was winning over the separate file. */
+menu,
+menu decoration {
+    border-radius: 7px;
+}
+
+/* ONE rule for inter-module spacing: every module that appears directly in
+   modules-left/center/right gets exactly the same padding, top/bottom
+   included. Nothing nested inside a group should carry its own outer
+   padding -- that was causing the compounding (group padding + child
+   padding stacking) behind the uneven gaps between modules. */
+#custom-archmenu,
+#custom-launcher,
+#workspacesview,
+#niritabs,
+#claude,
+#performance,
+#connectivity,
+#pulseaudio,
+#lighting,
+#custom-battery,
+#clock {
     padding: 1px 10px;
 }
 
-/* Pagination arrows: minimal, icon only, no button box */
+/* Everything nested inside a group: no outer padding of its own. Small
+   gaps between siblings inside a group come from the group's own
+   "spacing" property in config.jsonc, not from CSS padding here. */
+#workspaces,
+#custom-overview,
+#window,
+#custom-wincount,
+#custom-win-maximize,
+#custom-win-close,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#network,
+#tray,
+#custom-brightness-ddc,
+#custom-nightlight,
+#custom-claude-5h-pct,
+#custom-claude-5h-reset,
+#custom-claude-7d-pct,
+#custom-claude-7d-reset {
+    padding: 0;
+}
+
+/* Native niri workspaces styling */
+#workspaces {
+    background-color: transparent;
+}
+
+#workspaces button {
+    background-color: transparent;
+    color: rgba(222, 222, 222, 0.35);
+    padding: 0 4px;
+    font-size: 8pt;
+}
+
+#workspaces button.active,
+#workspaces button.focused {
+    color: #dedede;
+}
+
+#workspacesview {
+    background-color: transparent;
+}
+
+/* Floating Window Pill */
+#windowpill {
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 13px;
+    padding: 0 6px;
+    margin: 1px 4px;
+}
+
+#windowpill:hover {
+    background-color: rgba(255, 255, 255, 0.09);
+}
+
+window#waybar.empty #windowpill {
+    opacity: 0;
+}
+
+/* ==========================================================================
+   Interactive Firefox-style Tabs (Seamless pill with integrated close button)
+   ========================================================================== */
+#niritabs {
+    background-color: transparent;
+}
+
+/* Pagination arrows: icon only, no button box */
 #custom-page-prev,
 #custom-page-next {
     background-color: transparent;
@@ -25,93 +168,255 @@
     color: #ffffff;
 }
 
-/* Tab slots (group/tab-N): outer group container */
+/* Tab slots (group/tab-N): outer group spacing */
 #tab-0, #tab-1, #tab-2, #tab-3, #tab-4, #tab-5 {
     background-color: transparent;
     margin: 1px 2px;
 }
 
-/* Tab body (icon + short title) - left half of the pill */
+/* Tab body: The full Firefox tab pill (single container) */
 #custom-tab-0, #custom-tab-1, #custom-tab-2,
 #custom-tab-3, #custom-tab-4, #custom-tab-5 {
     background-color: rgba(255, 255, 255, 0.05);
-    border-top: 1px solid rgba(255, 255, 255, 0.07);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    border-left: 1px solid rgba(255, 255, 255, 0.07);
-    border-right: none;
-    border-radius: 5px 0 0 5px;
-    padding: 1px 2px 1px 7px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    padding: 1px 24px 1px 8px;
     font-size: 8pt;
     font-weight: normal;
-    color: rgba(222, 222, 222, 0.65);
-    transition: all 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
+    color: rgba(222, 222, 222, 0.70);
+    transition: background-color 150ms cubic-bezier(0.215, 0.61, 0.355, 1),
+                border-color 150ms cubic-bezier(0.215, 0.61, 0.355, 1),
+                color 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
-/* Tab close button (minimal ×) - right half of the pill, centered with proper margins */
-#custom-tab-close-0, #custom-tab-close-1, #custom-tab-close-2,
-#custom-tab-close-3, #custom-tab-close-4, #custom-tab-close-5 {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-top: 1px solid rgba(255, 255, 255, 0.07);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    border-right: 1px solid rgba(255, 255, 255, 0.07);
-    border-left: none;
-    border-radius: 0 5px 5px 0;
-    padding: 0 8px 0 6px;
-    font-size: 5.5pt;
-    font-weight: normal;
-    color: rgba(222, 222, 222, 0.35);
-    transition: all 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
-}
-
-/* Tab body hover */
+/* Tab body hover: entire tab highlights as one single unit */
 #custom-tab-0:hover, #custom-tab-1:hover, #custom-tab-2:hover,
 #custom-tab-3:hover, #custom-tab-4:hover, #custom-tab-5:hover {
-    background-color: rgba(255, 255, 255, 0.11);
+    background-color: rgba(255, 255, 255, 0.10);
+    border-color: rgba(255, 255, 255, 0.14);
     color: #ffffff;
 }
 
-/* Close button hover (subtle red highlight) */
-#custom-tab-close-0:hover, #custom-tab-close-1:hover, #custom-tab-close-2:hover,
-#custom-tab-close-3:hover, #custom-tab-close-4:hover, #custom-tab-close-5:hover {
-    background-color: rgba(224, 108, 117, 0.22);
-    color: #e06c75;
-}
-
-/* Active tab state: both halves illuminate together as one seamless pill (zero font-weight jitter) */
+/* Active tab state: entire tab pill illuminates with Niri ease-out-cubic */
 #custom-tab-0.active, #custom-tab-1.active, #custom-tab-2.active,
 #custom-tab-3.active, #custom-tab-4.active, #custom-tab-5.active {
     background-color: rgba(255, 255, 255, 0.16);
-    border-top: 1px solid rgba(255, 255, 255, 0.28);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.28);
-    border-left: 1px solid rgba(255, 255, 255, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.28);
     color: #ffffff;
     font-weight: normal;
     font-size: 8pt;
+}
+
+/* Close button: sits INSIDE the tab at the right end (like Firefox) */
+#custom-tab-close-0, #custom-tab-close-1, #custom-tab-close-2,
+#custom-tab-close-3, #custom-tab-close-4, #custom-tab-close-5 {
+    background-color: transparent;
+    border: none;
+    border-radius: 4px;
+    margin-left: -22px;
+    margin-right: 3px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding: 0 4px;
+    min-width: 14px;
+    min-height: 14px;
+    font-size: 8.5pt;
+    font-weight: normal;
+    color: rgba(222, 222, 222, 0.40);
+    transition: background-color 120ms ease, color 120ms ease;
 }
 
 #custom-tab-close-0.active, #custom-tab-close-1.active, #custom-tab-close-2.active,
 #custom-tab-close-3.active, #custom-tab-close-4.active, #custom-tab-close-5.active {
-    background-color: rgba(255, 255, 255, 0.16);
-    border-top: 1px solid rgba(255, 255, 255, 0.28);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.28);
-    border-right: 1px solid rgba(255, 255, 255, 0.28);
-    color: rgba(255, 255, 255, 0.55);
-    font-weight: normal;
-    font-size: 5.5pt;
+    color: rgba(255, 255, 255, 0.60);
 }
 
-#custom-tab-close-0.active:hover, #custom-tab-close-1.active:hover, #custom-tab-close-2.active:hover,
-#custom-tab-close-3.active:hover, #custom-tab-close-4.active:hover, #custom-tab-close-5.active:hover {
-    background-color: rgba(224, 108, 117, 0.25);
-    color: #e06c75;
+/* Close button hover: small rounded square highlight inside the tab */
+#custom-tab-close-0:hover, #custom-tab-close-1:hover, #custom-tab-close-2:hover,
+#custom-tab-close-3:hover, #custom-tab-close-4:hover, #custom-tab-close-5:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
 }
 
-/* ==========================================================================
-   Alternative: Single-Module Taskbar (`custom/niritaskbar`)
-   ========================================================================== */
-#custom-niritaskbar {
+/* font-weight: normal here on purpose -- Symbols Nerd Font Mono (where
+   these icon glyphs actually come from) has no bold variant, so the
+   global font-weight:800 was forcing GTK to synthetically embolden these
+   specific glyphs, which is what was producing the stray artifact/"dot"
+   on the Arch icon regardless of which glyph we used. */
+#custom-archmenu {
     background-color: transparent;
+    color: #dedede;
+    font-size: 10pt;
+    font-weight: normal;
+}
+
+#custom-overview {
+    background-color: transparent;
+    color: #dedede;
     font-size: 8pt;
     font-weight: normal;
-    padding: 1px 10px;
+    /* Consistent with other intra-group spacing across the bar (e.g. #network, #custom-nightlight, #perf-col1) */
+    margin-right: 6px;
+}
+
+#custom-launcher {
+    background-color: transparent;
+    color: #dedede;
+    font-size: 9pt;
+    font-weight: normal;
+}
+
+
+#window box {
+    padding: 0 2px;
+}
+
+/* Performance: single horizontal row with uniform 6px intra-group spacing */
+#performance {
+    background-color: transparent;
+}
+
+#cpu,
+#memory,
+#disk {
+    margin-right: 6px;
+}
+
+#cpu,
+#memory,
+#disk,
+#temperature {
+    background-color: transparent;
+    font-size: 8pt;
+    min-height: 0;
+    color: #dedede;
+}
+
+#temperature.critical {
+    color: #f7768e;
+}
+
+/* Claude rate limits: single horizontal row with 5h and 7d side-by-side */
+#claude {
+    background-color: transparent;
+}
+
+#claude-5h {
+    margin-right: 6px;
+}
+
+#custom-claude-5h-pct,
+#custom-claude-7d-pct {
+    background-color: transparent;
+    font-size: 8pt;
+    min-height: 0;
+    color: #dedede;
+}
+
+#custom-claude-5h-pct.warning,
+#custom-claude-7d-pct.warning {
+    color: #e0af68;
+}
+
+#custom-claude-5h-pct.critical,
+#custom-claude-7d-pct.critical {
+    color: #f7768e;
+}
+
+#custom-claude-5h-reset,
+#custom-claude-7d-reset {
+    background-color: transparent;
+    font-size: 8pt;
+    min-height: 0;
+    color: #a9b1d6;
+    margin-left: 2px;
+}
+
+/* Bigger than the default -- an icon-only glyph needs more size than text
+   to actually read clearly at this bar height. Icon-only (no combined text,
+   unlike cpu/memory/disk/temperature/pulseaudio/battery/brightness), so a
+   plain font-weight:normal is correct here -- no span-split needed. Same
+   underlying reason as all of those: Symbols Nerd Font Mono has no bold
+   face, confirmed for every glyph in this config on 2026-09-04. */
+#network {
+    font-size: 12pt;
+    font-weight: normal;
+}
+
+/* Volume: flat, icon/text color only -- no fill block. */
+#pulseaudio {
+    background-color: transparent;
+    color: #dedede;
+}
+
+#pulseaudio.muted {
+    color: #777777;
+}
+
+/* Network icon + tray share one block, flattened to match the rest. */
+#connectivity {
+    background-color: transparent;
+}
+
+#network {
+    background-color: transparent;
+    color: #dedede;
+    margin-right: 6px;
+}
+
+/* Differentiated by icon glyph (crossed-out wifi), not color. */
+#network.disconnected {
+    color: #777777;
+}
+
+#tray {
+    background-color: transparent;
+}
+
+/* Night light + brightness share one block, flat, icon color only. */
+#lighting {
+    background-color: transparent;
+}
+
+/* Icon-only: Symbols Nerd Font Mono has no bold face, so this stays
+   font-weight:normal (see #custom-archmenu above for the tofu/synthetic-bold
+   bug that forces this) -- the size bump is purely to compensate visually
+   for the lighter stroke next to the bold-800 glyphs elsewhere on the bar. */
+#custom-nightlight {
+    margin-right: 6px;
+    font-weight: normal;
+    font-size: 10pt;
+}
+
+/* Brightness: the icon in the format string carries its own
+   <span font_weight='normal'> (same reason as #custom-nightlight -- no bold
+   face for this glyph), but the "N%" text uses JetBrainsMono, which DOES
+   have a real bold face, so this selector is left at the inherited
+   font-weight:800 to match the rest of the bar. */
+#custom-brightness-ddc {
+    background-color: transparent;
+    color: #dedede;
+}
+
+/* Battery: flat, color only shifts on warning/critical (a real status
+   signal, kept -- everything else in the bar dropped color fills). Icon
+   weight is handled in waybar-battery's own <span> now, same split as
+   #custom-brightness-ddc, so the "N%" text here stays bold like the rest
+   of the bar. */
+#custom-battery {
+    background-color: transparent;
+    color: #dedede;
+}
+
+#custom-battery.warning {
+    color: #e0af68;
+}
+
+#custom-battery.critical {
+    color: #f7768e;
+}
+
+#clock {
+    background-color: transparent;
+    color: #dedede;
 }

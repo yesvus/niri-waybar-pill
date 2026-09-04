@@ -10,10 +10,22 @@ import sys
 import json
 import subprocess
 import signal
+import html
 
 SHM_DIR = "/dev/shm/niri-tabs"
 NUM_SLOTS = 6
-MAX_TITLE_LEN = 10
+MAX_TITLE_LEN = 12
+
+def fade_title(title, max_len=12):
+    title = html.escape(title)
+    if len(title) <= max_len:
+        return title
+    # Gradient fade of trailing characters into the tab background (like Firefox)
+    lead = title[:max_len - 3]
+    c1 = title[max_len - 3] if len(title) > max_len - 3 else ""
+    c2 = title[max_len - 2] if len(title) > max_len - 2 else ""
+    c3 = title[max_len - 1] if len(title) > max_len - 1 else ""
+    return f'{lead}<span alpha="70%">{c1}</span><span alpha="40%">{c2}</span><span alpha="15%">{c3}</span>'
 
 APP_ICONS = {
     "firefox": "󰈹",
@@ -159,10 +171,7 @@ def update_tabs():
                 title = title[2:].strip()
 
             icon = get_icon(app_id, title)
-            if len(title) > MAX_TITLE_LEN:
-                short_title = title[:MAX_TITLE_LEN - 1] + "…"
-            else:
-                short_title = title.ljust(MAX_TITLE_LEN)
+            short_title = fade_title(title, MAX_TITLE_LEN)
 
             is_focused = w.get("is_focused", False)
             css_class = "active" if is_focused else "normal"

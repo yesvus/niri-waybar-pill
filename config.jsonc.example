@@ -1,5 +1,34 @@
 {
-    // Native niri workspaces indicator with mouse scroll support
+    "layer": "top",
+    "position": "top",
+    // Tall enough to fit the 2-row performance group; other single-line
+    // modules just center vertically within the extra room.
+    "height": 26,
+    "spacing": 0,
+
+    "modules-left": [
+        "custom/niri-daemon",
+        "custom/archmenu",
+        "custom/launcher",
+        "group/workspacesview",
+        "group/niritabs"
+    ],
+    "modules-center": [],
+    "modules-right": [
+        "group/claude",
+        "group/performance",
+        "group/connectivity",
+        "pulseaudio",
+        "group/lighting",
+        "custom/battery",
+        "clock"
+    ],
+
+    // Workspace view icon + native niri workspaces indicator
+    "group/workspacesview": {
+        "orientation": "horizontal",
+        "modules": ["custom/overview", "niri/workspaces"]
+    },
     "niri/workspaces": {
         "format": "{index}",
         "tooltip": false,
@@ -14,8 +43,7 @@
         "tooltip": false
     },
 
-    // Interactive Firefox-style Niri workspace tabs
-    // (Seamless pills with integrated centered close buttons, minimal ‹ › pagination)
+    // Interactive Firefox-style Niri workspace tabs (individual close buttons, < > pagination, overflow fade)
     "group/niritabs": {
         "orientation": "horizontal",
         "modules": [
@@ -50,7 +78,7 @@
         "on-scroll-down": "niri msg action focus-column-right"
     },
 
-    // Tab Slot 0 (Pill body + integrated centered close button)
+    // Slot 0
     "group/tab-0": {
         "orientation": "horizontal",
         "modules": ["custom/tab-0", "custom/tab-close-0"]
@@ -73,10 +101,12 @@
         "signal": 1,
         "interval": "once",
         "hide-empty-text": true,
-        "on-click": "~/.config/waybar/niri-tab-action.sh close 0"
+        "on-click": "~/.config/waybar/niri-tab-action.sh close 0",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
     },
 
-    // Tab Slot 1
+    // Slot 1
     "group/tab-1": {
         "orientation": "horizontal",
         "modules": ["custom/tab-1", "custom/tab-close-1"]
@@ -99,7 +129,296 @@
         "signal": 1,
         "interval": "once",
         "hide-empty-text": true,
-        "on-click": "~/.config/waybar/niri-tab-action.sh close 1"
+        "on-click": "~/.config/waybar/niri-tab-action.sh close 1",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+
+    // Slot 2
+    "group/tab-2": {
+        "orientation": "horizontal",
+        "modules": ["custom/tab-2", "custom/tab-close-2"]
+    },
+    "custom/tab-2": {
+        "exec": "cat /dev/shm/niri-tabs/tab-2.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh focus 2",
+        "on-click-middle": "~/.config/waybar/niri-tab-action.sh close 2",
+        "on-click-right": "~/.config/waybar/niri-tab-action.sh close 2",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+    "custom/tab-close-2": {
+        "exec": "cat /dev/shm/niri-tabs/tab-close-2.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh close 2",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+
+    // Slot 3
+    "group/tab-3": {
+        "orientation": "horizontal",
+        "modules": ["custom/tab-3", "custom/tab-close-3"]
+    },
+    "custom/tab-3": {
+        "exec": "cat /dev/shm/niri-tabs/tab-3.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh focus 3",
+        "on-click-middle": "~/.config/waybar/niri-tab-action.sh close 3",
+        "on-click-right": "~/.config/waybar/niri-tab-action.sh close 3",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+    "custom/tab-close-3": {
+        "exec": "cat /dev/shm/niri-tabs/tab-close-3.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh close 3",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+
+    // Slot 4
+    "group/tab-4": {
+        "orientation": "horizontal",
+        "modules": ["custom/tab-4", "custom/tab-close-4"]
+    },
+    "custom/tab-4": {
+        "exec": "cat /dev/shm/niri-tabs/tab-4.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh focus 4",
+        "on-click-middle": "~/.config/waybar/niri-tab-action.sh close 4",
+        "on-click-right": "~/.config/waybar/niri-tab-action.sh close 4",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+    "custom/tab-close-4": {
+        "exec": "cat /dev/shm/niri-tabs/tab-close-4.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh close 4",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+
+    // Slot 5
+    "group/tab-5": {
+        "orientation": "horizontal",
+        "modules": ["custom/tab-5", "custom/tab-close-5"]
+    },
+    "custom/tab-5": {
+        "exec": "cat /dev/shm/niri-tabs/tab-5.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh focus 5",
+        "on-click-middle": "~/.config/waybar/niri-tab-action.sh close 5",
+        "on-click-right": "~/.config/waybar/niri-tab-action.sh close 5",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+    "custom/tab-close-5": {
+        "exec": "cat /dev/shm/niri-tabs/tab-close-5.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh close 5",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+    // macOS Apple-menu equivalent: click the Arch logo for a system menu.
+    "custom/archmenu": {
+        "format": "",
+        "tooltip": false,
+        "menu": "on-click",
+        "menu-file": "/home/yesvus/.config/waybar/arch-menu.xml",
+        "menu-actions": {
+            "about": "foot --app-id=arch-about-float --window-size-chars=100x40 -e sh -c 'fastfetch; echo; echo \"Press any key to close...\"; read -n1 -s'",
+            "settings": "xfce4-settings-manager",
+            "updates": "foot --app-id=arch-about-float --window-size-chars=100x40 -e sh -c 'checkupdates || echo \"System is up to date.\"; echo; echo \"Press any key to close...\"; read -n1 -s'",
+            "lock": "hyprlock",
+            "logout": "niri msg action quit",
+            "sleep": "systemctl suspend",
+            "reboot": "systemctl reboot",
+            "shutdown": "systemctl poweroff"
+        }
+    },
+    // Mouse-friendly overview launcher (niri's overview shortcut is Mod+O;
+    // this replaces the removed top-left hot corner as a click target).
+    "custom/overview": {
+        "format": "󰀻",
+        "tooltip": false,
+        "on-click": "niri msg action toggle-overview",
+        "on-scroll-up": "niri msg action focus-workspace-up",
+        "on-scroll-down": "niri msg action focus-workspace-down"
+    },
+    "custom/launcher": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "fuzzel"
+    },
+    // Performance metrics: single horizontal row
+    "group/performance": {
+        "orientation": "horizontal",
+        "modules": ["cpu", "memory", "disk", "temperature"]
+    },
+    "cpu": {
+        "interval": 2,
+        "format": "<span font_weight='normal'>󰌓</span> {usage}%",
+        "tooltip": false,
+        "on-click": "foot --app-id=btop-float -e btop"
+    },
+    "memory": {
+        "format": "<span font_weight='normal'>󰍛</span> {percentage}%",
+        "tooltip": false,
+        "on-click": "foot --app-id=btop-float -e btop"
+    },
+    "disk": {
+        // Root is backed by the machine's NVMe drive; show used space.
+        "path": "/",
+        "interval": 60,
+        "format": "<span font_weight='normal'>󰋊</span> {percentage_used}%",
+        "tooltip": false,
+        "on-click": "foot --app-id=btop-float -e btop"
+    },
+    "temperature": {
+        "hwmon-path": "/sys/class/hwmon/hwmon4/temp1_input",
+        "critical-threshold": 90,
+        "format": "<span font_weight='normal'>󰔏</span> {temperatureC}°",
+        "tooltip": false,
+        "on-click": "foot --app-id=btop-float -e btop"
+    },
+
+    // Claude Code rate-limit budgets: single horizontal row (5h and 7d side-by-side)
+    "group/claude": {
+        "orientation": "horizontal",
+        "modules": ["group/claude-5h", "group/claude-7d"]
+    },
+    "group/claude-5h": {
+        "orientation": "horizontal",
+        "modules": ["custom/claude-5h-pct", "custom/claude-5h-reset"]
+    },
+    "group/claude-7d": {
+        "orientation": "horizontal",
+        "modules": ["custom/claude-7d-pct", "custom/claude-7d-reset"]
+    },
+    "custom/claude-5h-pct": {
+        "exec": "/home/yesvus/.local/bin/waybar-claude-limits 5h pct",
+        "interval": 5,
+        "return-type": "json",
+        "tooltip": false,
+        "on-click": "foot -D $HOME -e claude"
+    },
+    "custom/claude-5h-reset": {
+        "exec": "/home/yesvus/.local/bin/waybar-claude-limits 5h reset",
+        "interval": 5,
+        "return-type": "json",
+        "tooltip": false,
+        "on-click": "foot -D $HOME -e claude"
+    },
+    "custom/claude-7d-pct": {
+        "exec": "/home/yesvus/.local/bin/waybar-claude-limits 7d pct",
+        "interval": 5,
+        "return-type": "json",
+        "tooltip": false,
+        "on-click": "foot -D $HOME -e claude"
+    },
+    "custom/claude-7d-reset": {
+        "exec": "/home/yesvus/.local/bin/waybar-claude-limits 7d reset",
+        "interval": 5,
+        "return-type": "json",
+        "tooltip": false,
+        "on-click": "foot -D $HOME -e claude"
+    },
+
+    // Network icon + tray (nm-applet's own network entry, etc.) sharing one
+    // block, since they're both connectivity-related.
+    "group/connectivity": {
+        "orientation": "horizontal",
+        "modules": ["network", "tray"]
+    },
+    // No "interface" pinned: waybar follows the default route, so this
+    // switches automatically between the wifi and ethernet formats below
+    // depending on which is actually up. Icon only -- hover for details.
+    "network": {
+        "format-wifi": "󰖩",
+        "format-ethernet": "",
+        "format-disconnected": "󰖪",
+        "tooltip": false,
+        "on-click": "nm-connection-editor"
+    },
+    "tray": {
+        "icon-size": 15,
+        "spacing": 8
+    },
+
+    "pulseaudio": {
+        "format": "<span font_weight='normal'>{icon}</span> {volume}%",
+        "format-muted": "<span font_weight='normal'>󰖁</span> muted",
+        "format-icons": {
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "tooltip": false,
+        // Waybar's own scroll step, separate from the wpctl keybinds in sway
+        // config (both now move volume by 5%, not the 1% default).
+        "scroll-step": 5,
+        "on-click": "pavucontrol"
+    },
+    // Night light + brightness share one block: both are "light" controls.
+    "group/lighting": {
+        "orientation": "horizontal",
+        "modules": ["custom/nightlight", "custom/brightness-ddc"]
+    },
+    "custom/brightness-ddc": {
+        "exec": "/home/yesvus/.local/bin/sway-brightness-ddc show",
+        "interval": 1,
+        "format": "<span font_weight='normal'>󰃟</span> {}%",
+        "tooltip": false,
+        "on-click": "/home/yesvus/.local/bin/sway-brightness-ddc bump +5",
+        "on-click-right": "/home/yesvus/.local/bin/sway-brightness-ddc bump -5",
+        "on-scroll-up": "/home/yesvus/.local/bin/sway-brightness-ddc bump +5",
+        "on-scroll-down": "/home/yesvus/.local/bin/sway-brightness-ddc bump -5"
+    },
+    // Static button: click toggles wlsunset's forced day/night state (same
+    // USR1 signal as $mod+Shift+n).
+    "custom/nightlight": {
+        "format": "󰖔",
+        "tooltip": false,
+        "on-click": "pkill -USR1 -x wlsunset"
+    },
+    // Custom instead of the built-in battery module: hide-when-empty lets
+    // waybar-battery collapse this widget away entirely while on AC, instead
+    // of always showing a percentage that isn't relevant when plugged in.
+    "custom/battery": {
+        "exec": "/home/yesvus/.local/bin/waybar-battery",
+        "interval": 30,
+        "return-type": "json",
+        "tooltip": false,
+        "hide-when-empty": true
+    },
+
+    "clock": {
+        "interval": 1,
+        "format": "{:%a %b %d, %H:%M:%S}",
+        "tooltip": false
     }
-    // Repeat group/tab-2 through group/tab-5 accordingly
 }
