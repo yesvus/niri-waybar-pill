@@ -168,6 +168,28 @@ window#waybar.empty #windowpill {
     color: #ffffff;
 }
 
+/* Reserved space disabled state: invisible to prevent layout shifts */
+#custom-page-prev.disabled,
+#custom-page-prev.disabled *,
+#custom-page-next.disabled,
+#custom-page-next.disabled *,
+#custom-fade-left.disabled,
+#custom-fade-left.disabled *,
+#custom-fade-right.disabled,
+#custom-fade-right.disabled *,
+#custom-page-prev.disabled:hover,
+#custom-page-prev.disabled:hover *,
+#custom-page-next.disabled:hover,
+#custom-page-next.disabled:hover *,
+#custom-fade-left.disabled:hover,
+#custom-fade-right.disabled:hover {
+    opacity: 0;
+    color: transparent;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
 /* Tab slots (group/tab-N): outer group spacing */
 #tab-0, #tab-1, #tab-2, #tab-3, #tab-4, #tab-5 {
     background-color: transparent;
@@ -188,6 +210,27 @@ window#waybar.empty #windowpill {
     transition: background-color 150ms cubic-bezier(0.215, 0.61, 0.355, 1),
                 border-color 150ms cubic-bezier(0.215, 0.61, 0.355, 1),
                 color 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+/* Tab body padding variants based on active buttons */
+#custom-tab-0.no-buttons, #custom-tab-1.no-buttons, #custom-tab-2.no-buttons,
+#custom-tab-3.no-buttons, #custom-tab-4.no-buttons, #custom-tab-5.no-buttons {
+    padding: 1px 8px 1px 8px;
+}
+
+#custom-tab-0.has-close-only, #custom-tab-1.has-close-only, #custom-tab-2.has-close-only,
+#custom-tab-3.has-close-only, #custom-tab-4.has-close-only, #custom-tab-5.has-close-only {
+    padding: 1px 20px 1px 7px;
+}
+
+#custom-tab-0.has-maximize-only, #custom-tab-1.has-maximize-only, #custom-tab-2.has-maximize-only,
+#custom-tab-3.has-maximize-only, #custom-tab-4.has-maximize-only, #custom-tab-5.has-maximize-only {
+    padding: 1px 20px 1px 7px;
+}
+
+#custom-tab-0.has-both-buttons, #custom-tab-1.has-both-buttons, #custom-tab-2.has-both-buttons,
+#custom-tab-3.has-both-buttons, #custom-tab-4.has-both-buttons, #custom-tab-5.has-both-buttons {
+    padding: 1px 36px 1px 7px;
 }
 
 /* Overflow scroll fade indicators at ends of scroll area (right of <, left of >) */
@@ -235,6 +278,42 @@ window#waybar.empty #windowpill {
     font-size: 8pt;
 }
 
+/* Maximize / Enlarge button (optional CSD button) */
+#custom-tab-maximize-0, #custom-tab-maximize-1, #custom-tab-maximize-2,
+#custom-tab-maximize-3, #custom-tab-maximize-4, #custom-tab-maximize-5 {
+    background-color: transparent;
+    border: none;
+    border-radius: 4px;
+    margin-left: -19px;
+    margin-right: 0px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding: 0 2px;
+    min-width: 14px;
+    min-height: 14px;
+    font-size: 8pt;
+    font-weight: normal;
+    color: rgba(222, 222, 222, 0.40);
+    transition: background-color 120ms ease, color 120ms ease;
+}
+
+#custom-tab-maximize-0.active, #custom-tab-maximize-1.active, #custom-tab-maximize-2.active,
+#custom-tab-maximize-3.active, #custom-tab-maximize-4.active, #custom-tab-maximize-5.active {
+    color: rgba(255, 255, 255, 0.60);
+}
+
+#custom-tab-maximize-0:hover, #custom-tab-maximize-1:hover, #custom-tab-maximize-2:hover,
+#custom-tab-maximize-3:hover, #custom-tab-maximize-4:hover, #custom-tab-maximize-5:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+}
+
+#custom-tab-maximize-0.with-close, #custom-tab-maximize-1.with-close, #custom-tab-maximize-2.with-close,
+#custom-tab-maximize-3.with-close, #custom-tab-maximize-4.with-close, #custom-tab-maximize-5.with-close {
+    margin-left: -35px;
+    margin-right: 2px;
+}
+
 /* Close button: sits INSIDE the tab at the right end (like Firefox) */
 #custom-tab-close-0, #custom-tab-close-1, #custom-tab-close-2,
 #custom-tab-close-3, #custom-tab-close-4, #custom-tab-close-5 {
@@ -264,6 +343,12 @@ window#waybar.empty #windowpill {
 #custom-tab-close-3:hover, #custom-tab-close-4:hover, #custom-tab-close-5:hover {
     background-color: rgba(255, 255, 255, 0.18);
     color: #ffffff;
+}
+
+#custom-tab-close-0.with-maximize, #custom-tab-close-1.with-maximize, #custom-tab-close-2.with-maximize,
+#custom-tab-close-3.with-maximize, #custom-tab-close-4.with-maximize, #custom-tab-close-5.with-maximize {
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 /* font-weight: normal here on purpose -- Symbols Nerd Font Mono (where

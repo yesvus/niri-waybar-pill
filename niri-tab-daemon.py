@@ -13,14 +13,48 @@ import signal
 import html
 
 SHM_DIR = "/dev/shm/niri-tabs"
-NUM_SLOTS = 6
-MAX_TITLE_LEN = 8
+CONFIG_PATH = os.path.expanduser("~/.config/niri-tabs/config.json")
+
+DEFAULT_CONFIG = {
+    "max_slots": 6,
+    "max_title_len": 8,
+    "reserve_navigation": True,
+    "show_close_button": True,
+    "show_maximize_button": False,
+    "close_icon": "✕",
+    "maximize_icon": "□"
+}
+
+_config_mtime = 0
+_cached_config = dict(DEFAULT_CONFIG)
+
+def get_config():
+    global _config_mtime, _cached_config
+    if os.path.isfile(CONFIG_PATH):
+        try:
+            mtime = os.path.getmtime(CONFIG_PATH)
+            if mtime != _config_mtime:
+                with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+                    content = f.read()
+                lines = []
+                for line in content.splitlines():
+                    stripped = line.strip()
+                    if stripped.startswith("//") or stripped.startswith("#"):
+                        continue
+                    lines.append(line)
+                cfg = json.loads("\n".join(lines))
+                _cached_config = {**DEFAULT_CONFIG, **cfg}
+                _config_mtime = mtime
+        except Exception:
+            pass
+    return _cached_config
 
 def fade_title(title, max_len=8):
     title = html.escape(title)
     if len(title) <= max_len:
         return title
-    # Gradient fade of trailing characters into the tab background (like Firefox)
+    if max_len <= 3:
+        return title[:max_len]
     lead = title[:max_len - 3]
     c1 = title[max_len - 3] if len(title) > max_len - 3 else ""
     c2 = title[max_len - 2] if len(title) > max_len - 2 else ""
@@ -75,6 +109,15 @@ last_state_hash = None
 
 def update_tabs():
     global last_state_hash
+    cfg = get_config()
+    num_slots = min(int(cfg.get("max_slots", 6)), 6)
+    max_title_len = int(cfg.get("max_title_len", 8))
+    reserve_nav = bool(cfg.get("reserve_navigation", True))
+    show_close = bool(cfg.get("show_close_button", True))
+    show_maximize = bool(cfg.get("show_maximize_button", False))
+    close_icon = str(cfg.get("close_icon", "✕"))
+    maximize_icon = str(cfg.get("maximize_icon", "□"))
+
     try:
         wins_raw = subprocess.check_output(["niri", "msg", "-j", "windows"], stderr=subprocess.DEVNULL)
         wss_raw = subprocess.check_output(["niri", "msg", "-j", "workspaces"], stderr=subprocess.DEVNULL)
@@ -105,21 +148,27 @@ def update_tabs():
             focused_idx = i
             break
 
-    if total <= NUM_SLOTS:
+    if total <= num_slots:
         start = 0
         visible = active_wins
         left_overflow = 0
         right_overflow = 0
     else:
-        start = max(0, min(focused_idx - (NUM_SLOTS // 2), total - NUM_SLOTS))
-        visible = active_wins[start:start + NUM_SLOTS]
+        start = max(0, min(focused_idx - (num_slots // 2), total - num_slots))
+        visible = active_wins[start:start + num_slots]
         left_overflow = start
         right_overflow = total - (start + len(visible))
 
     total_workspaces = len(wss)
 
-
     state_sig = (
+        num_slots,
+        max_title_len,
+        reserve_nav,
+        show_close,
+        show_maximize,
+        close_icon,
+        maximize_icon,
         total_workspaces,
         focused_ws,
         total,
@@ -139,48 +188,103 @@ def update_tabs():
     page_next_file = os.path.join(SHM_DIR, "page-next.json")
     fade_left_file = os.path.join(SHM_DIR, "fade-left.json")
     fade_right_file = os.path.join(SHM_DIR, "fade-right.json")
+    left_flag_file = os.path.join(SHM_DIR, "has-left-overflow")
+    right_flag_file = os.path.join(SHM_DIR, "has-right-overflow")
 
-    # Left pagination button & fade: appear ONLY when there is left overflow
+    # Left pagination button & fade: appear when there is left overflow; reserve space when enabled
     if left_overflow > 0:
+        try:
+            open(left_flag_file, "a").close()
+        except Exception:
+            pass
         prev_tip = f"Scroll left ({left_overflow} window(s) to the left)"
         write_json(page_prev_file, {
             "text": "‹",
             "tooltip": prev_tip,
-            "class": "page-prev"
+            "class": ["page-prev", "active"]
         })
         write_json(fade_left_file, {
             "text": " ",
             "tooltip": prev_tip,
-            "class": "fade-left"
+            "class": ["fade-left", "active"]
         })
     else:
-        write_json(page_prev_file, {"text": "", "tooltip": "", "class": ""})
-        write_json(fade_left_file, {"text": "", "tooltip": "", "class": ""})
+        if os.path.exists(left_flag_file):
+            try:
+                os.remove(left_flag_file)
+            except Exception:
+                pass
+        if reserve_nav:
+            write_json(page_prev_file, {
+                "text": "‹",
+                "tooltip": "",
+                "class": ["page-prev", "disabled"]
+            })
+            write_json(fade_left_file, {
+                "text": " ",
+                "tooltip": "",
+                "class": ["fade-left", "disabled"]
+            })
+        else:
+            write_json(page_prev_file, {"text": "", "tooltip": "", "class": ""})
+            write_json(fade_left_file, {"text": "", "tooltip": "", "class": ""})
 
-    # Right pagination button & fade: appear ONLY when there is right overflow
+    # Right pagination button & fade: appear when there is right overflow; reserve space when enabled
     if right_overflow > 0:
+        try:
+            open(right_flag_file, "a").close()
+        except Exception:
+            pass
         next_tip = f"Scroll right ({right_overflow} window(s) to the right)"
         write_json(page_next_file, {
             "text": "›",
             "tooltip": next_tip,
-            "class": "page-next"
+            "class": ["page-next", "active"]
         })
         write_json(fade_right_file, {
             "text": " ",
             "tooltip": next_tip,
-            "class": "fade-right"
+            "class": ["fade-right", "active"]
         })
     else:
-        write_json(page_next_file, {"text": "", "tooltip": "", "class": ""})
-        write_json(fade_right_file, {"text": "", "tooltip": "", "class": ""})
+        if os.path.exists(right_flag_file):
+            try:
+                os.remove(right_flag_file)
+            except Exception:
+                pass
+        if reserve_nav:
+            write_json(page_next_file, {
+                "text": "›",
+                "tooltip": "",
+                "class": ["page-next", "disabled"]
+            })
+            write_json(fade_right_file, {
+                "text": " ",
+                "tooltip": "",
+                "class": ["fade-right", "disabled"]
+            })
+        else:
+            write_json(page_next_file, {"text": "", "tooltip": "", "class": ""})
+            write_json(fade_right_file, {"text": "", "tooltip": "", "class": ""})
 
-    # 2. Tab slots (Tab body + Tab close button)
-    for slot in range(NUM_SLOTS):
+    # Button class for tab body padding
+    if show_close and show_maximize:
+        btn_class = "has-both-buttons"
+    elif show_close:
+        btn_class = "has-close-only"
+    elif show_maximize:
+        btn_class = "has-maximize-only"
+    else:
+        btn_class = "no-buttons"
+
+    # 2. Tab slots (Tab body + optional Maximize button + optional Close button)
+    for slot in range(6):
         tab_json_file = os.path.join(SHM_DIR, f"tab-{slot}.json")
+        maximize_json_file = os.path.join(SHM_DIR, f"tab-maximize-{slot}.json")
         close_json_file = os.path.join(SHM_DIR, f"tab-close-{slot}.json")
         slot_id_file = os.path.join(SHM_DIR, f"slot-{slot}.id")
 
-        if slot < len(visible):
+        if slot < len(visible) and slot < num_slots:
             w = visible[slot]
             win_id = w.get("id", 0)
             app_id = w.get("app_id") or ""
@@ -189,29 +293,45 @@ def update_tabs():
                 title = title[2:].strip()
 
             icon = get_icon(app_id, title)
-            short_title = fade_title(title, MAX_TITLE_LEN)
+            short_title = fade_title(title, max_title_len)
 
             is_focused = w.get("is_focused", False)
             css_class = "active" if is_focused else "normal"
 
-            # Tab body
+            # Tab body: clean hover tooltip showing only window title
             tab_data = {
                 "text": f"{icon} {short_title}",
-                "tooltip": f"[{win_id}] {title}\nLeft-click: Focus window\nMiddle-click: Close window",
-                "class": css_class
+                "tooltip": title,
+                "class": [css_class, btn_class]
             }
             write_json(tab_json_file, tab_data)
 
-            # Close button (minimal ×)
-            close_data = {
-                "text": "✕",
-                "tooltip": f"Close {title}",
-                "class": css_class
-            }
-            write_json(close_json_file, close_data)
+            # Optional Maximize/Enlarge button
+            if show_maximize:
+                max_sub = "with-close" if show_close else "without-close"
+                write_json(maximize_json_file, {
+                    "text": maximize_icon,
+                    "tooltip": "Maximize",
+                    "class": [css_class, max_sub]
+                })
+            else:
+                write_json(maximize_json_file, {"text": "", "tooltip": "", "class": ""})
+
+            # Optional Close button
+            if show_close:
+                close_sub = "with-maximize" if show_maximize else "without-maximize"
+                write_json(close_json_file, {
+                    "text": close_icon,
+                    "tooltip": "Close",
+                    "class": [css_class, close_sub]
+                })
+            else:
+                write_json(close_json_file, {"text": "", "tooltip": "", "class": ""})
+
             write_text(slot_id_file, str(win_id))
         else:
             write_json(tab_json_file, {"text": "", "tooltip": "", "class": ""})
+            write_json(maximize_json_file, {"text": "", "tooltip": "", "class": ""})
             write_json(close_json_file, {"text": "", "tooltip": "", "class": ""})
             write_text(slot_id_file, "")
 

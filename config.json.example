@@ -1,0 +1,9 @@
+{
+  "max_slots": 6,
+  "max_title_len": 8,
+  "reserve_navigation": true,
+  "show_close_button": true,
+  "show_maximize_button": true,
+  "close_icon": "✕",
+  "maximize_icon": "□"
+}

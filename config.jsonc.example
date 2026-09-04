@@ -66,9 +66,9 @@
         "signal": 1,
         "interval": "once",
         "hide-empty-text": true,
-        "on-click": "niri msg action focus-column-left",
-        "on-scroll-up": "niri msg action focus-column-left",
-        "on-scroll-down": "niri msg action focus-column-right"
+        "on-click": "~/.config/waybar/niri-tab-action.sh scroll-left",
+        "on-scroll-up": "~/.config/waybar/niri-tab-action.sh scroll-left",
+        "on-scroll-down": "~/.config/waybar/niri-tab-action.sh scroll-right"
     },
     "custom/fade-left": {
         "exec": "cat /dev/shm/niri-tabs/fade-left.json 2>/dev/null || true",
@@ -76,9 +76,9 @@
         "signal": 1,
         "interval": "once",
         "hide-empty-text": true,
-        "on-click": "niri msg action focus-column-left",
-        "on-scroll-up": "niri msg action focus-column-left",
-        "on-scroll-down": "niri msg action focus-column-right"
+        "on-click": "~/.config/waybar/niri-tab-action.sh scroll-left",
+        "on-scroll-up": "~/.config/waybar/niri-tab-action.sh scroll-left",
+        "on-scroll-down": "~/.config/waybar/niri-tab-action.sh scroll-right"
     },
     "custom/fade-right": {
         "exec": "cat /dev/shm/niri-tabs/fade-right.json 2>/dev/null || true",
@@ -86,9 +86,9 @@
         "signal": 1,
         "interval": "once",
         "hide-empty-text": true,
-        "on-click": "niri msg action focus-column-right",
-        "on-scroll-up": "niri msg action focus-column-left",
-        "on-scroll-down": "niri msg action focus-column-right"
+        "on-click": "~/.config/waybar/niri-tab-action.sh scroll-right",
+        "on-scroll-up": "~/.config/waybar/niri-tab-action.sh scroll-left",
+        "on-scroll-down": "~/.config/waybar/niri-tab-action.sh scroll-right"
     },
     "custom/page-next": {
         "exec": "cat /dev/shm/niri-tabs/page-next.json 2>/dev/null || true",
@@ -96,15 +96,15 @@
         "signal": 1,
         "interval": "once",
         "hide-empty-text": true,
-        "on-click": "niri msg action focus-column-right",
-        "on-scroll-up": "niri msg action focus-column-left",
-        "on-scroll-down": "niri msg action focus-column-right"
+        "on-click": "~/.config/waybar/niri-tab-action.sh scroll-right",
+        "on-scroll-up": "~/.config/waybar/niri-tab-action.sh scroll-left",
+        "on-scroll-down": "~/.config/waybar/niri-tab-action.sh scroll-right"
     },
 
     // Slot 0
     "group/tab-0": {
         "orientation": "horizontal",
-        "modules": ["custom/tab-0", "custom/tab-close-0"]
+        "modules": ["custom/tab-0", "custom/tab-maximize-0", "custom/tab-close-0"]
     },
     "custom/tab-0": {
         "exec": "cat /dev/shm/niri-tabs/tab-0.json 2>/dev/null || true",
@@ -115,8 +115,19 @@
         "justify": "left",
         "hide-empty-text": true,
         "on-click": "~/.config/waybar/niri-tab-action.sh focus 0",
+        "on-double-click": "~/.config/waybar/niri-tab-action.sh maximize 0",
         "on-click-middle": "~/.config/waybar/niri-tab-action.sh close 0",
         "on-click-right": "~/.config/waybar/niri-tab-action.sh close 0",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+    "custom/tab-maximize-0": {
+        "exec": "cat /dev/shm/niri-tabs/tab-maximize-0.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh maximize 0",
         "on-scroll-up": "niri msg action focus-column-left",
         "on-scroll-down": "niri msg action focus-column-right"
     },
@@ -134,7 +145,7 @@
     // Slot 1
     "group/tab-1": {
         "orientation": "horizontal",
-        "modules": ["custom/tab-1", "custom/tab-close-1"]
+        "modules": ["custom/tab-1", "custom/tab-maximize-1", "custom/tab-close-1"]
     },
     "custom/tab-1": {
         "exec": "cat /dev/shm/niri-tabs/tab-1.json 2>/dev/null || true",
@@ -145,8 +156,19 @@
         "justify": "left",
         "hide-empty-text": true,
         "on-click": "~/.config/waybar/niri-tab-action.sh focus 1",
+        "on-double-click": "~/.config/waybar/niri-tab-action.sh maximize 1",
         "on-click-middle": "~/.config/waybar/niri-tab-action.sh close 1",
         "on-click-right": "~/.config/waybar/niri-tab-action.sh close 1",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+    "custom/tab-maximize-1": {
+        "exec": "cat /dev/shm/niri-tabs/tab-maximize-1.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh maximize 1",
         "on-scroll-up": "niri msg action focus-column-left",
         "on-scroll-down": "niri msg action focus-column-right"
     },
@@ -164,7 +186,7 @@
     // Slot 2
     "group/tab-2": {
         "orientation": "horizontal",
-        "modules": ["custom/tab-2", "custom/tab-close-2"]
+        "modules": ["custom/tab-2", "custom/tab-maximize-2", "custom/tab-close-2"]
     },
     "custom/tab-2": {
         "exec": "cat /dev/shm/niri-tabs/tab-2.json 2>/dev/null || true",
@@ -175,8 +197,19 @@
         "justify": "left",
         "hide-empty-text": true,
         "on-click": "~/.config/waybar/niri-tab-action.sh focus 2",
+        "on-double-click": "~/.config/waybar/niri-tab-action.sh maximize 2",
         "on-click-middle": "~/.config/waybar/niri-tab-action.sh close 2",
         "on-click-right": "~/.config/waybar/niri-tab-action.sh close 2",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+    "custom/tab-maximize-2": {
+        "exec": "cat /dev/shm/niri-tabs/tab-maximize-2.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh maximize 2",
         "on-scroll-up": "niri msg action focus-column-left",
         "on-scroll-down": "niri msg action focus-column-right"
     },
@@ -194,7 +227,7 @@
     // Slot 3
     "group/tab-3": {
         "orientation": "horizontal",
-        "modules": ["custom/tab-3", "custom/tab-close-3"]
+        "modules": ["custom/tab-3", "custom/tab-maximize-3", "custom/tab-close-3"]
     },
     "custom/tab-3": {
         "exec": "cat /dev/shm/niri-tabs/tab-3.json 2>/dev/null || true",
@@ -205,8 +238,19 @@
         "justify": "left",
         "hide-empty-text": true,
         "on-click": "~/.config/waybar/niri-tab-action.sh focus 3",
+        "on-double-click": "~/.config/waybar/niri-tab-action.sh maximize 3",
         "on-click-middle": "~/.config/waybar/niri-tab-action.sh close 3",
         "on-click-right": "~/.config/waybar/niri-tab-action.sh close 3",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+    "custom/tab-maximize-3": {
+        "exec": "cat /dev/shm/niri-tabs/tab-maximize-3.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh maximize 3",
         "on-scroll-up": "niri msg action focus-column-left",
         "on-scroll-down": "niri msg action focus-column-right"
     },
@@ -224,7 +268,7 @@
     // Slot 4
     "group/tab-4": {
         "orientation": "horizontal",
-        "modules": ["custom/tab-4", "custom/tab-close-4"]
+        "modules": ["custom/tab-4", "custom/tab-maximize-4", "custom/tab-close-4"]
     },
     "custom/tab-4": {
         "exec": "cat /dev/shm/niri-tabs/tab-4.json 2>/dev/null || true",
@@ -235,8 +279,19 @@
         "justify": "left",
         "hide-empty-text": true,
         "on-click": "~/.config/waybar/niri-tab-action.sh focus 4",
+        "on-double-click": "~/.config/waybar/niri-tab-action.sh maximize 4",
         "on-click-middle": "~/.config/waybar/niri-tab-action.sh close 4",
         "on-click-right": "~/.config/waybar/niri-tab-action.sh close 4",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+    "custom/tab-maximize-4": {
+        "exec": "cat /dev/shm/niri-tabs/tab-maximize-4.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh maximize 4",
         "on-scroll-up": "niri msg action focus-column-left",
         "on-scroll-down": "niri msg action focus-column-right"
     },
@@ -254,7 +309,7 @@
     // Slot 5
     "group/tab-5": {
         "orientation": "horizontal",
-        "modules": ["custom/tab-5", "custom/tab-close-5"]
+        "modules": ["custom/tab-5", "custom/tab-maximize-5", "custom/tab-close-5"]
     },
     "custom/tab-5": {
         "exec": "cat /dev/shm/niri-tabs/tab-5.json 2>/dev/null || true",
@@ -265,8 +320,19 @@
         "justify": "left",
         "hide-empty-text": true,
         "on-click": "~/.config/waybar/niri-tab-action.sh focus 5",
+        "on-double-click": "~/.config/waybar/niri-tab-action.sh maximize 5",
         "on-click-middle": "~/.config/waybar/niri-tab-action.sh close 5",
         "on-click-right": "~/.config/waybar/niri-tab-action.sh close 5",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+    "custom/tab-maximize-5": {
+        "exec": "cat /dev/shm/niri-tabs/tab-maximize-5.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh maximize 5",
         "on-scroll-up": "niri msg action focus-column-left",
         "on-scroll-down": "niri msg action focus-column-right"
     },
