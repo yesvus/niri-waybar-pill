@@ -1,5 +1,15 @@
 /* ==========================================================================
-   Compact Windows-style Taskbar Pills (Reduced border-radius & compact width)
+   Workspace-Filtered Compact Taskbar (`custom/niritaskbar`)
+   ========================================================================== */
+#custom-niritaskbar {
+    background-color: transparent;
+    font-size: 8pt;
+    font-weight: normal;
+    padding: 1px 10px;
+}
+
+/* ==========================================================================
+   wlr/taskbar alternative (if using wlr/taskbar with reduced border-radius)
    ========================================================================== */
 #taskbar {
     background-color: transparent;

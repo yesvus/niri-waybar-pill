@@ -1,16 +1,14 @@
 {
-    // Option 1: Compact Windows-style Taskbar (Every window as its own compact pill)
-    "wlr/taskbar": {
-        "format": "{icon} {title}",
-        "icon-size": 12,
-        "max-length": 18,
-        "all-outputs": false,
-        "sort-by-app-id": false,
-        "active-first": false,
-        "on-click": "activate",
-        "on-click-middle": "close",
+    // Option 1: Workspace-Filtered Compact Taskbar (Each window as a distinct pill)
+    "custom/niritaskbar": {
+        "exec": "~/.config/waybar/niri-taskbar.py",
+        "return-type": "json",
+        "format": "{}",
         "tooltip": true,
-        "tooltip-format": "{title}"
+        "on-click": "niri msg action toggle-overview",
+        "on-click-right": "niri msg action close-window",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
     },
 
     // Option 2: Floating Window Pill (Title + Window Count Radar + Maximize/Close Controls)
