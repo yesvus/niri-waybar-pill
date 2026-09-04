@@ -8,11 +8,23 @@
     "group/niritabs": {
         "orientation": "horizontal",
         "modules": [
+            "custom/page-prev",
             "custom/tab-left",
             "custom/tab-0", "custom/tab-1", "custom/tab-2", "custom/tab-3",
             "custom/tab-4", "custom/tab-5", "custom/tab-6",
-            "custom/tab-right"
+            "custom/tab-right",
+            "custom/page-next"
         ]
+    },
+    "custom/page-prev": {
+        "format": "<",
+        "tooltip": "Scroll left / previous window",
+        "on-click": "niri msg action focus-column-left"
+    },
+    "custom/page-next": {
+        "format": ">",
+        "tooltip": "Scroll right / next window",
+        "on-click": "niri msg action focus-column-right"
     },
     "custom/tab-left": {
         "exec": "cat /dev/shm/niri-tabs/tab-left.json 2>/dev/null || true",

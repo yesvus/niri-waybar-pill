@@ -11,8 +11,8 @@ Designed for users who want borderless, CSD-free terminal windows without sacrif
 ### 1. Interactive Workspace Tabs (`niri-tab-daemon.py` & `niri-tab-action.sh`) 🚀 *(Recommended)*
 * **Direct Window Jumping:** Clicking any tab immediately focuses that specific window without having to open the workspace overview.
 * **Independent Close on Right Click:** Right-clicking any tab immediately closes that window (`niri msg action close-window --id <ID>`).
-* **Real GTK Pill Buttons:** Each tab is an individual GTK widget with rounded corners (`border-radius: 5px`), hover lighting, and focused active glow.
-* **Bidirectional Dynamic Overflow:** Displays `‹N` on the left when off-screen windows exist to the left, and `+N` on the right when off-screen windows exist to the right. Both update continuously as you navigate through windows.
+* **Real GTK Pill Buttons:** Each tab is an individual GTK widget with rounded corners (`border-radius: 5px`), hover lighting, and focused active glow without any font-weight jitter (consistent font size and weight across states).
+* **`<` and `>` Pagination & Dynamic Overflow:** Features dedicated `<` (most left) and `>` (most right) pagination buttons alongside dynamic `+(num)` overflow badges that indicate hidden windows on either side.
 * **Integrated Window Controls (`group/wincontrols`):** Dedicated pill buttons for **Maximize / Restore** (`󰘖`) and **Close** (``) with custom hover accent colors.
 
 ### 2. Single-Module Workspace Taskbar (`niri-taskbar.py`)

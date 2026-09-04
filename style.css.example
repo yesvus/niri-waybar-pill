@@ -38,6 +38,24 @@
     color: #ffffff;
 }
 
+#custom-page-prev,
+#custom-page-next {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 5px;
+    padding: 1px 6px;
+    margin: 1px 2px;
+    font-size: 8pt;
+    font-weight: normal;
+    color: rgba(222, 222, 222, 0.45);
+}
+
+#custom-page-prev:hover,
+#custom-page-next:hover {
+    background-color: rgba(255, 255, 255, 0.14);
+    color: #ffffff;
+}
+
 #custom-tab-0.active,
 #custom-tab-1.active,
 #custom-tab-2.active,
@@ -46,9 +64,10 @@
 #custom-tab-5.active,
 #custom-tab-6.active {
     background-color: rgba(255, 255, 255, 0.18);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     color: #ffffff;
-    font-weight: bold;
+    font-weight: normal;
+    font-size: 8pt;
 }
 
 #custom-tab-left,

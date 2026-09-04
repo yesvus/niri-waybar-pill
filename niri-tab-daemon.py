@@ -123,7 +123,7 @@ def update_tabs():
     left_file = os.path.join(SHM_DIR, "tab-left.json")
     if left_overflow > 0:
         write_json(left_file, {
-            "text": f"‹{left_overflow}",
+            "text": f"+{left_overflow}",
             "tooltip": f"{left_overflow} window(s) to the left\nClick to scroll left",
             "class": "overflow"
         })
