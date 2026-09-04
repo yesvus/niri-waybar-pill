@@ -1,28 +1,35 @@
 {
-    // Option 1: Interactive Workspace Tabs (Click to jump to window, right-click to close)
+    // Background daemon that keeps tab states fresh in /dev/shm/niri-tabs/
     "custom/niri-daemon": {
         "exec": "~/.config/waybar/niri-tab-daemon.py",
         "format": "",
         "tooltip": false
     },
+
+    // Interactive Firefox-style Niri workspace tabs
+    // (Seamless pills with integrated close buttons, minimal ‹ › pagination, overflow fade)
     "group/niritabs": {
         "orientation": "horizontal",
         "modules": [
             "custom/page-prev",
             "custom/tab-left",
-            "custom/tab-0", "custom/tab-1", "custom/tab-2", "custom/tab-3",
-            "custom/tab-4", "custom/tab-5", "custom/tab-6",
+            "group/tab-0",
+            "group/tab-1",
+            "group/tab-2",
+            "group/tab-3",
+            "group/tab-4",
+            "group/tab-5",
             "custom/tab-right",
             "custom/page-next"
         ]
     },
     "custom/page-prev": {
-        "format": "<",
+        "format": "‹",
         "tooltip": "Scroll left / previous window",
         "on-click": "niri msg action focus-column-left"
     },
     "custom/page-next": {
-        "format": ">",
+        "format": "›",
         "tooltip": "Scroll right / next window",
         "on-click": "niri msg action focus-column-right"
     },
@@ -42,6 +49,12 @@
         "hide-empty-text": true,
         "on-click": "niri msg action focus-column-right"
     },
+
+    // Tab Slot 0 (Pill body + integrated close button)
+    "group/tab-0": {
+        "orientation": "horizontal",
+        "modules": ["custom/tab-0", "custom/tab-close-0"]
+    },
     "custom/tab-0": {
         "exec": "cat /dev/shm/niri-tabs/tab-0.json 2>/dev/null || true",
         "return-type": "json",
@@ -49,57 +62,44 @@
         "interval": "once",
         "hide-empty-text": true,
         "on-click": "~/.config/waybar/niri-tab-action.sh focus 0",
+        "on-click-middle": "~/.config/waybar/niri-tab-action.sh close 0",
         "on-click-right": "~/.config/waybar/niri-tab-action.sh close 0",
         "on-scroll-up": "niri msg action focus-column-left",
         "on-scroll-down": "niri msg action focus-column-right"
     },
-    // (Repeat custom/tab-1 through custom/tab-6 with their respective slot numbers)
-
-    // Option 1b: Window Controls (Maximize / Close focused window)
-    "group/wincontrols": {
-        "orientation": "horizontal",
-        "modules": ["custom/win-maximize", "custom/win-close"]
-    },
-    "custom/win-maximize": {
-        "format": "󰘖",
-        "tooltip": "Maximize / Restore Column",
-        "on-click": "niri msg action maximize-column"
-    },
-    "custom/win-close": {
-        "format": "",
-        "tooltip": "Close Window",
-        "on-click": "niri msg action close-window"
-    },
-
-    // Option 2: Floating Window Pill (Title + Window Count Radar + Maximize/Close Controls)
-    "group/windowpill": {
-        "orientation": "horizontal",
-        "modules": [
-            "niri/window",
-            "custom/wincount",
-            "custom/win-maximize",
-            "custom/win-close"
-        ]
-    },
-    "niri/window": {
-        "format": "{title}",
-        "max-length": 35,
-        "tooltip": false
-    },
-    "custom/wincount": {
-        "exec": "~/.config/waybar/niri-wincount.py",
+    "custom/tab-close-0": {
+        "exec": "cat /dev/shm/niri-tabs/tab-close-0.json 2>/dev/null || true",
         "return-type": "json",
-        "format": "{}",
-        "tooltip": true
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh close 0"
     },
-    "custom/win-maximize": {
-        "format": "󰘖",
-        "tooltip": false,
-        "on-click": "niri msg action maximize-column"
+
+    // Tab Slot 1
+    "group/tab-1": {
+        "orientation": "horizontal",
+        "modules": ["custom/tab-1", "custom/tab-close-1"]
     },
-    "custom/win-close": {
-        "format": "",
-        "tooltip": false,
-        "on-click": "niri msg action close-window"
+    "custom/tab-1": {
+        "exec": "cat /dev/shm/niri-tabs/tab-1.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh focus 1",
+        "on-click-middle": "~/.config/waybar/niri-tab-action.sh close 1",
+        "on-click-right": "~/.config/waybar/niri-tab-action.sh close 1",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
+    },
+    "custom/tab-close-1": {
+        "exec": "cat /dev/shm/niri-tabs/tab-close-1.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "~/.config/waybar/niri-tab-action.sh close 1"
     }
+    // Repeat group/tab-2 through group/tab-5 accordingly
 }

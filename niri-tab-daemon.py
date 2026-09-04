@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
 """
 Event-driven Waybar taskbar daemon for Niri.
-Maintains individual tab states in /dev/shm/niri-tabs/ for interactive,
-clickable pills that jump directly to windows on click.
+Maintains individual Firefox-style tab states in /dev/shm/niri-tabs/
+with integrated close buttons and Niri-aligned behavior.
 """
 
 import os
 import sys
 import json
 import subprocess
-import html
 import signal
 
 SHM_DIR = "/dev/shm/niri-tabs"
-NUM_SLOTS = 7
+NUM_SLOTS = 6
 MAX_TITLE_LEN = 10
 
 APP_ICONS = {
@@ -105,7 +104,6 @@ def update_tabs():
         left_overflow = start
         right_overflow = total - (start + len(visible))
 
-    # Fast hash check to avoid redundant disk writes and signals
     state_sig = (
         focused_ws,
         left_overflow,
@@ -119,20 +117,21 @@ def update_tabs():
 
     os.makedirs(SHM_DIR, exist_ok=True)
 
-    # 1. Left overflow indicator
+    # 1. Left overflow indicator (+N format)
     left_file = os.path.join(SHM_DIR, "tab-left.json")
     if left_overflow > 0:
         write_json(left_file, {
             "text": f"+{left_overflow}",
             "tooltip": f"{left_overflow} window(s) to the left\nClick to scroll left",
-            "class": "overflow"
+            "class": "overflow-left"
         })
     else:
         write_json(left_file, {"text": "", "tooltip": "", "class": ""})
 
-    # 2. Tab slots
+    # 2. Tab slots (Tab body + Tab close button)
     for slot in range(NUM_SLOTS):
         tab_json_file = os.path.join(SHM_DIR, f"tab-{slot}.json")
+        close_json_file = os.path.join(SHM_DIR, f"tab-close-{slot}.json")
         slot_id_file = os.path.join(SHM_DIR, f"slot-{slot}.id")
 
         if slot < len(visible):
@@ -152,29 +151,39 @@ def update_tabs():
             is_focused = w.get("is_focused", False)
             css_class = "active" if is_focused else "normal"
 
+            # Tab body
             tab_data = {
                 "text": f"{icon} {short_title}",
-                "tooltip": f"[{win_id}] {title}\nLeft-click: Jump to window\nRight-click: Close window",
+                "tooltip": f"[{win_id}] {title}\nLeft-click: Focus window\nMiddle-click: Close window",
                 "class": css_class
             }
             write_json(tab_json_file, tab_data)
+
+            # Close button (minimal ×)
+            close_data = {
+                "text": "󰅖",
+                "tooltip": f"Close {title}",
+                "class": css_class
+            }
+            write_json(close_json_file, close_data)
             write_text(slot_id_file, str(win_id))
         else:
             write_json(tab_json_file, {"text": "", "tooltip": "", "class": ""})
+            write_json(close_json_file, {"text": "", "tooltip": "", "class": ""})
             write_text(slot_id_file, "")
 
-    # 3. Right overflow indicator
+    # 3. Right overflow indicator (+N format)
     right_file = os.path.join(SHM_DIR, "tab-right.json")
     if right_overflow > 0:
         write_json(right_file, {
             "text": f"+{right_overflow}",
             "tooltip": f"{right_overflow} window(s) to the right\nClick to scroll right",
-            "class": "overflow"
+            "class": "overflow-right"
         })
     else:
         write_json(right_file, {"text": "", "tooltip": "", "class": ""})
 
-    # Signal Waybar to reload custom modules on RTMIN+1
+    # Signal Waybar to reload custom modules
     subprocess.run(["pkill", "-RTMIN+1", "waybar"], stderr=subprocess.DEVNULL)
 
 def main():
@@ -184,10 +193,8 @@ def main():
     signal.signal(signal.SIGTERM, handle_signal)
     signal.signal(signal.SIGINT, handle_signal)
 
-    # Initial render
     update_tabs()
 
-    # Event stream
     try:
         proc = subprocess.Popen(
             ["niri", "msg", "-j", "event-stream"],

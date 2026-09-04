@@ -1,191 +1,154 @@
 /* ==========================================================================
-   Interactive Niri Taskbar Pills (`group/niritabs`)
+   Interactive Niri Firefox-Style Tabs (`group/niritabs`)
    ========================================================================== */
 #niritabs {
     background-color: transparent;
     padding: 1px 10px;
 }
 
-#custom-tab-left,
-#custom-tab-right,
-#custom-tab-0,
-#custom-tab-1,
-#custom-tab-2,
-#custom-tab-3,
-#custom-tab-4,
-#custom-tab-5,
-#custom-tab-6 {
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 5px; /* Compact pill with reduced radius */
-    padding: 1px 7px;
-    margin: 1px 2px;
-    font-size: 8pt;
-    font-weight: normal;
-    color: rgba(222, 222, 222, 0.65);
-}
-
-#custom-tab-left:hover,
-#custom-tab-right:hover,
-#custom-tab-0:hover,
-#custom-tab-1:hover,
-#custom-tab-2:hover,
-#custom-tab-3:hover,
-#custom-tab-4:hover,
-#custom-tab-5:hover,
-#custom-tab-6:hover {
-    background-color: rgba(255, 255, 255, 0.12);
-    color: #ffffff;
-}
-
+/* Pagination arrows: minimal, icon only, no button box */
 #custom-page-prev,
 #custom-page-next {
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 5px;
-    padding: 1px 6px;
-    margin: 1px 2px;
-    font-size: 8pt;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0 5px;
+    margin: 0;
+    font-size: 9pt;
     font-weight: normal;
-    color: rgba(222, 222, 222, 0.45);
+    color: rgba(222, 222, 222, 0.35);
+    transition: all 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 #custom-page-prev:hover,
 #custom-page-next:hover {
-    background-color: rgba(255, 255, 255, 0.14);
     color: #ffffff;
 }
 
-#custom-tab-0.active,
-#custom-tab-1.active,
-#custom-tab-2.active,
-#custom-tab-3.active,
-#custom-tab-4.active,
-#custom-tab-5.active,
-#custom-tab-6.active {
-    background-color: rgba(255, 255, 255, 0.18);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #ffffff;
+/* Overflow scroll fade badges (smooth gradient fade into ribbon) */
+#custom-tab-left {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01));
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+    padding: 1px 6px;
+    margin: 1px 1px;
+    font-size: 7.5pt;
     font-weight: normal;
-    font-size: 8pt;
-}
-
-#custom-tab-left,
-#custom-tab-right {
-    color: #888888;
-    padding: 1px 5px;
-}
-
-/* Window Controls (Maximize / Close) */
-#wincontrols {
-    background-color: transparent;
-    padding: 1px 10px;
-}
-
-#custom-win-maximize,
-#custom-win-close {
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 5px;
-    padding: 1px 7px;
-    margin: 1px 2px;
-    font-size: 8pt;
-    font-weight: normal;
-    color: rgba(222, 222, 222, 0.55);
-}
-
-#custom-win-maximize:hover {
-    background-color: rgba(97, 175, 239, 0.18);
-    border: 1px solid rgba(97, 175, 239, 0.35);
-    color: #61afef;
-}
-
-#custom-win-close:hover {
-    background-color: rgba(224, 108, 117, 0.18);
-    border: 1px solid rgba(224, 108, 117, 0.35);
-    color: #e06c75;
-}
-
-/* ==========================================================================
-   wlr/taskbar alternative (if using wlr/taskbar with reduced border-radius)
-   ========================================================================== */
-#taskbar {
-    background-color: transparent;
-    padding: 0 4px;
-}
-
-#taskbar button {
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 5px; /* Compact rounded pill */
-    padding: 1px 7px;
-    margin: 1px 2px;
-    font-size: 8pt;
-    font-weight: normal;
-    color: rgba(222, 222, 222, 0.6);
-}
-
-#taskbar button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-}
-
-#taskbar button.active {
-    background-color: rgba(255, 255, 255, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    color: #dedede;
-    font-weight: bold;
-}
-
-/* ==========================================================================
-   Floating Window Pill (Title + Count Radar + Controls)
-   ========================================================================== */
-#windowpill {
-    background-color: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 13px;
-    padding: 0 6px;
-    margin: 1px 4px;
-}
-
-#windowpill:hover {
-    background-color: rgba(255, 255, 255, 0.09);
-}
-
-window#waybar.empty #windowpill {
-    opacity: 0;
-}
-
-#window {
-    background-color: transparent;
-    color: #dedede;
-    font-size: 8pt;
-    font-weight: normal;
-    padding: 0 4px;
-}
-
-#custom-wincount {
-    background-color: transparent;
     color: rgba(222, 222, 222, 0.45);
-    font-size: 7.5pt;
-    font-weight: normal;
-    padding: 0 4px;
-    margin-right: 2px;
+    transition: all 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
-#custom-win-maximize,
-#custom-win-close {
+#custom-tab-left:hover {
+    color: #ffffff;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03));
+}
+
+#custom-tab-right {
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01));
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+    padding: 1px 6px;
+    margin: 1px 1px;
+    font-size: 7.5pt;
+    font-weight: normal;
+    color: rgba(222, 222, 222, 0.45);
+    transition: all 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+#custom-tab-right:hover {
+    color: #ffffff;
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03));
+}
+
+/* Tab slots (group/tab-N): outer group container */
+#tab-0, #tab-1, #tab-2, #tab-3, #tab-4, #tab-5 {
     background-color: transparent;
-    color: rgba(222, 222, 222, 0.4);
-    font-size: 7.5pt;
+    margin: 1px 2px;
+}
+
+/* Tab body (icon + short title) - left half of the pill */
+#custom-tab-0, #custom-tab-1, #custom-tab-2,
+#custom-tab-3, #custom-tab-4, #custom-tab-5 {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    border-left: 1px solid rgba(255, 255, 255, 0.07);
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+    padding: 1px 3px 1px 7px;
+    font-size: 8pt;
     font-weight: normal;
-    padding: 0 3px;
+    color: rgba(222, 222, 222, 0.65);
+    transition: all 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
-#custom-win-maximize:hover {
-    color: #61afef;
+/* Tab close button (minimal ×) - right half of the pill */
+#custom-tab-close-0, #custom-tab-close-1, #custom-tab-close-2,
+#custom-tab-close-3, #custom-tab-close-4, #custom-tab-close-5 {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    border-right: 1px solid rgba(255, 255, 255, 0.07);
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+    padding: 1px 6px 1px 2px;
+    font-size: 7pt;
+    font-weight: normal;
+    color: rgba(222, 222, 222, 0.35);
+    transition: all 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
-#custom-win-close:hover {
+/* Tab body hover */
+#custom-tab-0:hover, #custom-tab-1:hover, #custom-tab-2:hover,
+#custom-tab-3:hover, #custom-tab-4:hover, #custom-tab-5:hover {
+    background-color: rgba(255, 255, 255, 0.11);
+    color: #ffffff;
+}
+
+/* Close button hover (subtle red highlight) */
+#custom-tab-close-0:hover, #custom-tab-close-1:hover, #custom-tab-close-2:hover,
+#custom-tab-close-3:hover, #custom-tab-close-4:hover, #custom-tab-close-5:hover {
+    background-color: rgba(224, 108, 117, 0.2);
     color: #e06c75;
+}
+
+/* Active tab state: both halves illuminate together as one seamless pill (zero font-weight jitter) */
+#custom-tab-0.active, #custom-tab-1.active, #custom-tab-2.active,
+#custom-tab-3.active, #custom-tab-4.active, #custom-tab-5.active {
+    background-color: rgba(255, 255, 255, 0.16);
+    border-top: 1px solid rgba(255, 255, 255, 0.28);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+    border-left: 1px solid rgba(255, 255, 255, 0.28);
+    color: #ffffff;
+    font-weight: normal;
+    font-size: 8pt;
+}
+
+#custom-tab-close-0.active, #custom-tab-close-1.active, #custom-tab-close-2.active,
+#custom-tab-close-3.active, #custom-tab-close-4.active, #custom-tab-close-5.active {
+    background-color: rgba(255, 255, 255, 0.16);
+    border-top: 1px solid rgba(255, 255, 255, 0.28);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+    border-right: 1px solid rgba(255, 255, 255, 0.28);
+    color: rgba(255, 255, 255, 0.55);
+    font-weight: normal;
+    font-size: 7pt;
+}
+
+#custom-tab-close-0.active:hover, #custom-tab-close-1.active:hover, #custom-tab-close-2.active:hover,
+#custom-tab-close-3.active:hover, #custom-tab-close-4.active:hover, #custom-tab-close-5.active:hover {
+    background-color: rgba(224, 108, 117, 0.25);
+    color: #e06c75;
+}
+
+/* ==========================================================================
+   Alternative: Single-Module Taskbar (`custom/niritaskbar`)
+   ========================================================================== */
+#custom-niritaskbar {
+    background-color: transparent;
+    font-size: 8pt;
+    font-weight: normal;
+    padding: 1px 10px;
 }

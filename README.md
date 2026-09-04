@@ -8,12 +8,14 @@ Designed for users who want borderless, CSD-free terminal windows without sacrif
 
 ## What's Included
 
-### 1. Interactive Workspace Tabs (`niri-tab-daemon.py` & `niri-tab-action.sh`) 🚀 *(Recommended)*
-* **Direct Window Jumping:** Clicking any tab immediately focuses that specific window without having to open the workspace overview.
-* **Independent Close on Right Click:** Right-clicking any tab immediately closes that window (`niri msg action close-window --id <ID>`).
-* **Real GTK Pill Buttons:** Each tab is an individual GTK widget with rounded corners (`border-radius: 5px`), hover lighting, and focused active glow without any font-weight jitter (consistent font size and weight across states).
-* **`<` and `>` Pagination & Dynamic Overflow:** Features dedicated `<` (most left) and `>` (most right) pagination buttons alongside dynamic `+(num)` overflow badges that indicate hidden windows on either side.
-* **Integrated Window Controls (`group/wincontrols`):** Dedicated pill buttons for **Maximize / Restore** (`󰘖`) and **Close** (``) with custom hover accent colors.
+### 1. Interactive Firefox-Style Tabs (`niri-tab-daemon.py` & `niri-tab-action.sh`) 🚀 *(Recommended)*
+* **Seamless Firefox Pills:** Each window tab is rendered as a clean, unified pill with an integrated minimal close button (`󰅖`) at the right end.
+* **Direct Window Jumping:** Left-clicking the tab body focuses that specific window immediately (`niri msg action focus-window --id <ID>`).
+* **Integrated Close Action:** Left-clicking the integrated close button (or right/middle-clicking the tab body) immediately closes that window (`niri msg action close-window --id <ID>`).
+* **No Font-Weight Jitter:** Both active and inactive tabs maintain identical font weight and size (`font-weight: normal; font-size: 8pt;`), eliminating horizontal layout shifts during window focus changes.
+* **Minimal `‹` and `›` Pagination:** Icon-only navigation arrows with transparent backgrounds and hover highlighting.
+* **Niri Ribbon-Aligned Overflow Scroll Fade:** Subtle horizontal gradient fades on `+N` overflow badges mirroring Niri's infinite horizontal ribbon.
+* **Smooth Easing Transitions:** Calibrated with `transition: all 150ms cubic-bezier(0.215, 0.61, 0.355, 1);` matching Niri's default `ease-out-cubic` curve.
 
 ### 2. Single-Module Workspace Taskbar (`niri-taskbar.py`)
 * Lightweight single-span taskbar for minimal setups.
@@ -24,45 +26,23 @@ Designed for users who want borderless, CSD-free terminal windows without sacrif
 
 ---
 
-## Installation
+## Quick Setup (Firefox-Style Tabs)
 
-### 1. Copy the Script
+### 1. Copy Daemon & Action Handler
 ```bash
-cp niri-taskbar.py ~/.config/waybar/
-chmod +x ~/.config/waybar/niri-taskbar.py
+cp niri-tab-daemon.py niri-tab-action.sh ~/.config/waybar/
+chmod +x ~/.config/waybar/niri-tab-daemon.py ~/.config/waybar/niri-tab-action.sh
 ```
 
 ### 2. Configure Waybar (`~/.config/waybar/config.jsonc`)
-Add `"custom/niritaskbar"` to your `modules-left`:
-
-```jsonc
-"modules-left": ["custom/archmenu", "custom/launcher", "group/workspacesview", "custom/niritaskbar"],
-
-"custom/niritaskbar": {
-    "exec": "~/.config/waybar/niri-taskbar.py",
-    "return-type": "json",
-    "format": "{}",
-    "tooltip": true,
-    "on-click": "niri msg action toggle-overview",
-    "on-click-right": "niri msg action close-window",
-    "on-scroll-up": "niri msg action focus-column-left",
-    "on-scroll-down": "niri msg action focus-column-right"
-}
-```
+Add `"group/niritabs"` to your `modules-left` and include the definitions from `config.jsonc.example`.
 
 ### 3. Add Waybar CSS (`~/.config/waybar/style.css`)
-```css
-#custom-niritaskbar {
-    background-color: transparent;
-    font-size: 8pt;
-    font-weight: normal;
-    padding: 1px 10px;
-}
-```
+Incorporate the CSS from `style.css.example`.
 
 ### 4. Reload Waybar
 ```bash
-pkill -USR2 waybar
+pkill waybar && sleep 0.5 && niri msg action spawn -- waybar
 ```
 
 ---
