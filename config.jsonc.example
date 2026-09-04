@@ -30,14 +30,24 @@
         ]
     },
     "custom/page-prev": {
-        "format": "‹",
-        "tooltip": "Scroll left / previous window",
-        "on-click": "niri msg action focus-column-left"
+        "exec": "cat /dev/shm/niri-tabs/page-prev.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "niri msg action focus-column-left",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
     },
     "custom/page-next": {
-        "format": "›",
-        "tooltip": "Scroll right / next window",
-        "on-click": "niri msg action focus-column-right"
+        "exec": "cat /dev/shm/niri-tabs/page-next.json 2>/dev/null || true",
+        "return-type": "json",
+        "signal": 1,
+        "interval": "once",
+        "hide-empty-text": true,
+        "on-click": "niri msg action focus-column-right",
+        "on-scroll-up": "niri msg action focus-column-left",
+        "on-scroll-down": "niri msg action focus-column-right"
     },
 
     // Tab Slot 0 (Pill body + integrated centered close button)

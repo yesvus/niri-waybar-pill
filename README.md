@@ -9,12 +9,11 @@ Designed for users who want borderless, CSD-free terminal windows without sacrif
 ## What's Included
 
 ### 1. Interactive Firefox-Style Tabs (`niri-tab-daemon.py` & `niri-tab-action.sh`) 🚀 *(Recommended)*
-* **Seamless Firefox Pills:** Each window tab is rendered as a clean, unified pill with an integrated minimal close button (`󰅖`) at the right end.
+* **Seamless Firefox Pills:** Each window tab is rendered as a clean, unified pill with an integrated minimal close button (`✕`) centered at the right end with balanced margins.
 * **Direct Window Jumping:** Left-clicking the tab body focuses that specific window immediately (`niri msg action focus-window --id <ID>`).
 * **Integrated Close Action:** Left-clicking the integrated close button (or right/middle-clicking the tab body) immediately closes that window (`niri msg action close-window --id <ID>`).
 * **No Font-Weight Jitter:** Both active and inactive tabs maintain identical font weight and size (`font-weight: normal; font-size: 8pt;`), eliminating horizontal layout shifts during window focus changes.
-* **Minimal `‹` and `›` Pagination:** Icon-only navigation arrows with transparent backgrounds and hover highlighting.
-* **Niri Ribbon-Aligned Overflow Scroll Fade:** Subtle horizontal gradient fades on `+N` overflow badges mirroring Niri's infinite horizontal ribbon.
+* **Smart Dynamic `‹` and `›` Pagination:** Icon-only navigation arrows automatically disappear on single-workspace setups (< 2 workspaces), when the active workspace has < 2 windows, or when on an empty workspace, keeping the bar minimal without visual noise.
 * **Smooth Easing Transitions:** Calibrated with `transition: all 150ms cubic-bezier(0.215, 0.61, 0.355, 1);` matching Niri's default `ease-out-cubic` curve.
 
 ### 2. Single-Module Workspace Taskbar (`niri-taskbar.py`)

@@ -104,8 +104,14 @@ def update_tabs():
         left_overflow = start
         right_overflow = total - (start + len(visible))
 
+    total_workspaces = len(wss)
+    # Pagination arrows: hide when <2 workspaces or <2 windows on active workspace
+    show_pagination = (total >= 2) and (total_workspaces >= 2 or left_overflow > 0 or right_overflow > 0)
+
     state_sig = (
+        total_workspaces,
         focused_ws,
+        total,
         left_overflow,
         right_overflow,
         [(w.get("id"), w.get("is_focused"), w.get("title")) for w in visible]
@@ -117,16 +123,26 @@ def update_tabs():
 
     os.makedirs(SHM_DIR, exist_ok=True)
 
-    # 1. Left overflow indicator (+N format)
-    left_file = os.path.join(SHM_DIR, "tab-left.json")
-    if left_overflow > 0:
-        write_json(left_file, {
-            "text": f"+{left_overflow}",
-            "tooltip": f"{left_overflow} window(s) to the left\nClick to scroll left",
-            "class": "overflow-left"
+    # 1. Left pagination arrow (‹)
+    page_prev_file = os.path.join(SHM_DIR, "page-prev.json")
+    page_next_file = os.path.join(SHM_DIR, "page-next.json")
+
+    if show_pagination:
+        prev_tip = f"Scroll left ({left_overflow} window(s) to the left)" if left_overflow > 0 else "Scroll left / previous window"
+        next_tip = f"Scroll right ({right_overflow} window(s) to the right)" if right_overflow > 0 else "Scroll right / next window"
+        write_json(page_prev_file, {
+            "text": "‹",
+            "tooltip": prev_tip,
+            "class": "page-prev"
+        })
+        write_json(page_next_file, {
+            "text": "›",
+            "tooltip": next_tip,
+            "class": "page-next"
         })
     else:
-        write_json(left_file, {"text": "", "tooltip": "", "class": ""})
+        write_json(page_prev_file, {"text": "", "tooltip": "", "class": ""})
+        write_json(page_next_file, {"text": "", "tooltip": "", "class": ""})
 
     # 2. Tab slots (Tab body + Tab close button)
     for slot in range(NUM_SLOTS):
@@ -171,17 +187,6 @@ def update_tabs():
             write_json(tab_json_file, {"text": "", "tooltip": "", "class": ""})
             write_json(close_json_file, {"text": "", "tooltip": "", "class": ""})
             write_text(slot_id_file, "")
-
-    # 3. Right overflow indicator (+N format)
-    right_file = os.path.join(SHM_DIR, "tab-right.json")
-    if right_overflow > 0:
-        write_json(right_file, {
-            "text": f"+{right_overflow}",
-            "tooltip": f"{right_overflow} window(s) to the right\nClick to scroll right",
-            "class": "overflow-right"
-        })
-    else:
-        write_json(right_file, {"text": "", "tooltip": "", "class": ""})
 
     # Signal Waybar to reload custom modules
     subprocess.run(["pkill", "-RTMIN+1", "waybar"], stderr=subprocess.DEVNULL)
