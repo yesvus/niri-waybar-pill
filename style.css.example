@@ -25,43 +25,6 @@
     color: #ffffff;
 }
 
-/* Overflow scroll fade badges (smooth gradient fade into ribbon) */
-#custom-tab-left {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01));
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-right: none;
-    border-radius: 5px 0 0 5px;
-    padding: 1px 6px;
-    margin: 1px 1px;
-    font-size: 7.5pt;
-    font-weight: normal;
-    color: rgba(222, 222, 222, 0.45);
-    transition: all 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
-}
-
-#custom-tab-left:hover {
-    color: #ffffff;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03));
-}
-
-#custom-tab-right {
-    background: linear-gradient(to left, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01));
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-left: none;
-    border-radius: 0 5px 5px 0;
-    padding: 1px 6px;
-    margin: 1px 1px;
-    font-size: 7.5pt;
-    font-weight: normal;
-    color: rgba(222, 222, 222, 0.45);
-    transition: all 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
-}
-
-#custom-tab-right:hover {
-    color: #ffffff;
-    background: linear-gradient(to left, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03));
-}
-
 /* Tab slots (group/tab-N): outer group container */
 #tab-0, #tab-1, #tab-2, #tab-3, #tab-4, #tab-5 {
     background-color: transparent;
@@ -77,14 +40,14 @@
     border-left: 1px solid rgba(255, 255, 255, 0.07);
     border-right: none;
     border-radius: 5px 0 0 5px;
-    padding: 1px 3px 1px 7px;
+    padding: 1px 2px 1px 7px;
     font-size: 8pt;
     font-weight: normal;
     color: rgba(222, 222, 222, 0.65);
     transition: all 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
-/* Tab close button (minimal ×) - right half of the pill */
+/* Tab close button (minimal ×) - right half of the pill, centered with proper margins */
 #custom-tab-close-0, #custom-tab-close-1, #custom-tab-close-2,
 #custom-tab-close-3, #custom-tab-close-4, #custom-tab-close-5 {
     background-color: rgba(255, 255, 255, 0.05);
@@ -93,8 +56,8 @@
     border-right: 1px solid rgba(255, 255, 255, 0.07);
     border-left: none;
     border-radius: 0 5px 5px 0;
-    padding: 1px 6px 1px 2px;
-    font-size: 7pt;
+    padding: 0 8px 0 6px;
+    font-size: 5.5pt;
     font-weight: normal;
     color: rgba(222, 222, 222, 0.35);
     transition: all 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -110,7 +73,7 @@
 /* Close button hover (subtle red highlight) */
 #custom-tab-close-0:hover, #custom-tab-close-1:hover, #custom-tab-close-2:hover,
 #custom-tab-close-3:hover, #custom-tab-close-4:hover, #custom-tab-close-5:hover {
-    background-color: rgba(224, 108, 117, 0.2);
+    background-color: rgba(224, 108, 117, 0.22);
     color: #e06c75;
 }
 
@@ -134,7 +97,7 @@
     border-right: 1px solid rgba(255, 255, 255, 0.28);
     color: rgba(255, 255, 255, 0.55);
     font-weight: normal;
-    font-size: 7pt;
+    font-size: 5.5pt;
 }
 
 #custom-tab-close-0.active:hover, #custom-tab-close-1.active:hover, #custom-tab-close-2.active:hover,

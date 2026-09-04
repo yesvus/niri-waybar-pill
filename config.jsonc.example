@@ -15,19 +15,17 @@
     },
 
     // Interactive Firefox-style Niri workspace tabs
-    // (Seamless pills with integrated close buttons, minimal ‹ › pagination, overflow fade)
+    // (Seamless pills with integrated centered close buttons, minimal ‹ › pagination)
     "group/niritabs": {
         "orientation": "horizontal",
         "modules": [
             "custom/page-prev",
-            "custom/tab-left",
             "group/tab-0",
             "group/tab-1",
             "group/tab-2",
             "group/tab-3",
             "group/tab-4",
             "group/tab-5",
-            "custom/tab-right",
             "custom/page-next"
         ]
     },
@@ -41,24 +39,8 @@
         "tooltip": "Scroll right / next window",
         "on-click": "niri msg action focus-column-right"
     },
-    "custom/tab-left": {
-        "exec": "cat /dev/shm/niri-tabs/tab-left.json 2>/dev/null || true",
-        "return-type": "json",
-        "signal": 1,
-        "interval": "once",
-        "hide-empty-text": true,
-        "on-click": "niri msg action focus-column-left"
-    },
-    "custom/tab-right": {
-        "exec": "cat /dev/shm/niri-tabs/tab-right.json 2>/dev/null || true",
-        "return-type": "json",
-        "signal": 1,
-        "interval": "once",
-        "hide-empty-text": true,
-        "on-click": "niri msg action focus-column-right"
-    },
 
-    // Tab Slot 0 (Pill body + integrated close button)
+    // Tab Slot 0 (Pill body + integrated centered close button)
     "group/tab-0": {
         "orientation": "horizontal",
         "modules": ["custom/tab-0", "custom/tab-close-0"]

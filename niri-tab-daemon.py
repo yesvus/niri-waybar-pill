@@ -161,7 +161,7 @@ def update_tabs():
 
             # Close button (minimal ×)
             close_data = {
-                "text": "󰅖",
+                "text": "✕",
                 "tooltip": f"Close {title}",
                 "class": css_class
             }
