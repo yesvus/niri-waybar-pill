@@ -1,4 +1,12 @@
 {
+    // Native niri workspaces indicator with mouse scroll support
+    "niri/workspaces": {
+        "format": "{index}",
+        "tooltip": false,
+        "on-scroll-up": "niri msg action focus-workspace-up",
+        "on-scroll-down": "niri msg action focus-workspace-down"
+    },
+
     // Background daemon that keeps tab states fresh in /dev/shm/niri-tabs/
     "custom/niri-daemon": {
         "exec": "~/.config/waybar/niri-tab-daemon.py",
