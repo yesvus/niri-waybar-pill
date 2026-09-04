@@ -1,0 +1,83 @@
+/* ==========================================================================
+   Compact Windows-style Taskbar Pills (Reduced border-radius & compact width)
+   ========================================================================== */
+#taskbar {
+    background-color: transparent;
+    padding: 0 4px;
+}
+
+#taskbar button {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 5px; /* Compact rounded pill */
+    padding: 1px 7px;
+    margin: 1px 2px;
+    font-size: 8pt;
+    font-weight: normal;
+    color: rgba(222, 222, 222, 0.6);
+}
+
+#taskbar button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+#taskbar button.active {
+    background-color: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #dedede;
+    font-weight: bold;
+}
+
+/* ==========================================================================
+   Floating Window Pill (Title + Count Radar + Controls)
+   ========================================================================== */
+#windowpill {
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 13px;
+    padding: 0 6px;
+    margin: 1px 4px;
+}
+
+#windowpill:hover {
+    background-color: rgba(255, 255, 255, 0.09);
+}
+
+window#waybar.empty #windowpill {
+    opacity: 0;
+}
+
+#window {
+    background-color: transparent;
+    color: #dedede;
+    font-size: 8pt;
+    font-weight: normal;
+    padding: 0 4px;
+}
+
+#custom-wincount {
+    background-color: transparent;
+    color: rgba(222, 222, 222, 0.45);
+    font-size: 7.5pt;
+    font-weight: normal;
+    padding: 0 4px;
+    margin-right: 2px;
+}
+
+#custom-win-maximize,
+#custom-win-close {
+    background-color: transparent;
+    color: rgba(222, 222, 222, 0.4);
+    font-size: 7.5pt;
+    font-weight: normal;
+    padding: 0 3px;
+}
+
+#custom-win-maximize:hover {
+    color: #61afef;
+}
+
+#custom-win-close:hover {
+    color: #e06c75;
+}

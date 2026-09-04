@@ -1,0 +1,47 @@
+{
+    // Option 1: Compact Windows-style Taskbar (Every window as its own compact pill)
+    "wlr/taskbar": {
+        "format": "{icon} {title}",
+        "icon-size": 12,
+        "max-length": 18,
+        "all-outputs": false,
+        "sort-by-app-id": false,
+        "active-first": false,
+        "on-click": "activate",
+        "on-click-middle": "close",
+        "tooltip": true,
+        "tooltip-format": "{title}"
+    },
+
+    // Option 2: Floating Window Pill (Title + Window Count Radar + Maximize/Close Controls)
+    "group/windowpill": {
+        "orientation": "horizontal",
+        "modules": [
+            "niri/window",
+            "custom/wincount",
+            "custom/win-maximize",
+            "custom/win-close"
+        ]
+    },
+    "niri/window": {
+        "format": "{title}",
+        "max-length": 35,
+        "tooltip": false
+    },
+    "custom/wincount": {
+        "exec": "~/.config/waybar/niri-wincount.py",
+        "return-type": "json",
+        "format": "{}",
+        "tooltip": true
+    },
+    "custom/win-maximize": {
+        "format": "󰘖",
+        "tooltip": false,
+        "on-click": "niri msg action maximize-column"
+    },
+    "custom/win-close": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "niri msg action close-window"
+    }
+}
