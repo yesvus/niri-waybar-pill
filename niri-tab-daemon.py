@@ -345,6 +345,12 @@ def main():
     signal.signal(signal.SIGTERM, handle_signal)
     signal.signal(signal.SIGINT, handle_signal)
 
+    def handle_reload(sig, frame):
+        update_tabs()
+
+    signal.signal(signal.SIGHUP, handle_reload)
+    signal.signal(signal.SIGUSR1, handle_reload)
+
     update_tabs()
 
     try:
