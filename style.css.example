@@ -278,9 +278,26 @@ window#waybar.empty #windowpill {
     font-size: 8pt;
 }
 
-/* Maximize / Enlarge button (optional CSD button) */
+/* Base: when button is empty / disabled, ensure it collapses to 0 */
 #custom-tab-maximize-0, #custom-tab-maximize-1, #custom-tab-maximize-2,
-#custom-tab-maximize-3, #custom-tab-maximize-4, #custom-tab-maximize-5 {
+#custom-tab-maximize-3, #custom-tab-maximize-4, #custom-tab-maximize-5,
+#custom-tab-close-0, #custom-tab-close-1, #custom-tab-close-2,
+#custom-tab-close-3, #custom-tab-close-4, #custom-tab-close-5 {
+    background-color: transparent;
+    border: none;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    min-height: 0;
+}
+
+/* Maximize / Enlarge button (optional CSD button) */
+#custom-tab-maximize-0.normal, #custom-tab-maximize-0.active,
+#custom-tab-maximize-1.normal, #custom-tab-maximize-1.active,
+#custom-tab-maximize-2.normal, #custom-tab-maximize-2.active,
+#custom-tab-maximize-3.normal, #custom-tab-maximize-3.active,
+#custom-tab-maximize-4.normal, #custom-tab-maximize-4.active,
+#custom-tab-maximize-5.normal, #custom-tab-maximize-5.active {
     background-color: transparent;
     border: none;
     border-radius: 4px;
@@ -311,12 +328,16 @@ window#waybar.empty #windowpill {
 #custom-tab-maximize-0.with-close, #custom-tab-maximize-1.with-close, #custom-tab-maximize-2.with-close,
 #custom-tab-maximize-3.with-close, #custom-tab-maximize-4.with-close, #custom-tab-maximize-5.with-close {
     margin-left: -35px;
-    margin-right: 2px;
+    margin-right: 0px;
 }
 
 /* Close button: sits INSIDE the tab at the right end (like Firefox) */
-#custom-tab-close-0, #custom-tab-close-1, #custom-tab-close-2,
-#custom-tab-close-3, #custom-tab-close-4, #custom-tab-close-5 {
+#custom-tab-close-0.normal, #custom-tab-close-0.active,
+#custom-tab-close-1.normal, #custom-tab-close-1.active,
+#custom-tab-close-2.normal, #custom-tab-close-2.active,
+#custom-tab-close-3.normal, #custom-tab-close-3.active,
+#custom-tab-close-4.normal, #custom-tab-close-4.active,
+#custom-tab-close-5.normal, #custom-tab-close-5.active {
     background-color: transparent;
     border: none;
     border-radius: 4px;
@@ -347,7 +368,7 @@ window#waybar.empty #windowpill {
 
 #custom-tab-close-0.with-maximize, #custom-tab-close-1.with-maximize, #custom-tab-close-2.with-maximize,
 #custom-tab-close-3.with-maximize, #custom-tab-close-4.with-maximize, #custom-tab-close-5.with-maximize {
-    margin-left: 0px;
+    margin-left: -18px;
     margin-right: 0px;
 }
 
