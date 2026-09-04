@@ -300,15 +300,17 @@ window#waybar.empty #windowpill {
 #custom-tab-maximize-5.normal, #custom-tab-maximize-5.active {
     background-color: transparent;
     border: none;
-    border-radius: 4px;
-    margin-left: -19px;
+    border-radius: 3px;
+    margin-left: -18px;
     margin-right: 0px;
     margin-top: 2px;
     margin-bottom: 2px;
-    padding: 0 2px;
+    padding: 0;
     min-width: 14px;
+    max-width: 14px;
     min-height: 14px;
-    font-size: 8pt;
+    max-height: 14px;
+    font-size: 6.5pt;
     font-weight: normal;
     color: rgba(222, 222, 222, 0.40);
     transition: background-color 120ms ease, color 120ms ease;
@@ -319,15 +321,18 @@ window#waybar.empty #windowpill {
     color: rgba(255, 255, 255, 0.60);
 }
 
+/* Enlarge button hover: clean, bright highlight box */
 #custom-tab-maximize-0:hover, #custom-tab-maximize-1:hover, #custom-tab-maximize-2:hover,
-#custom-tab-maximize-3:hover, #custom-tab-maximize-4:hover, #custom-tab-maximize-5:hover {
-    background-color: rgba(255, 255, 255, 0.18);
+#custom-tab-maximize-3:hover, #custom-tab-maximize-4:hover, #custom-tab-maximize-5:hover,
+#custom-tab-maximize-0.active:hover, #custom-tab-maximize-1.active:hover, #custom-tab-maximize-2.active:hover,
+#custom-tab-maximize-3.active:hover, #custom-tab-maximize-4.active:hover, #custom-tab-maximize-5.active:hover {
+    background-color: rgba(255, 255, 255, 0.25);
     color: #ffffff;
 }
 
 #custom-tab-maximize-0.with-close, #custom-tab-maximize-1.with-close, #custom-tab-maximize-2.with-close,
 #custom-tab-maximize-3.with-close, #custom-tab-maximize-4.with-close, #custom-tab-maximize-5.with-close {
-    margin-left: -35px;
+    margin-left: -33px;
     margin-right: 0px;
 }
 
@@ -340,15 +345,17 @@ window#waybar.empty #windowpill {
 #custom-tab-close-5.normal, #custom-tab-close-5.active {
     background-color: transparent;
     border: none;
-    border-radius: 4px;
-    margin-left: -19px;
+    border-radius: 3px;
+    margin-left: -18px;
     margin-right: 0px;
     margin-top: 2px;
     margin-bottom: 2px;
-    padding: 0 3px;
+    padding: 0;
     min-width: 14px;
+    max-width: 14px;
     min-height: 14px;
-    font-size: 8.5pt;
+    max-height: 14px;
+    font-size: 8pt;
     font-weight: normal;
     color: rgba(222, 222, 222, 0.40);
     transition: background-color 120ms ease, color 120ms ease;
@@ -359,16 +366,18 @@ window#waybar.empty #windowpill {
     color: rgba(255, 255, 255, 0.60);
 }
 
-/* Close button hover: small rounded square highlight inside the tab */
+/* Close button hover: crisp, distinct soft-red highlight to clearly determine action */
 #custom-tab-close-0:hover, #custom-tab-close-1:hover, #custom-tab-close-2:hover,
-#custom-tab-close-3:hover, #custom-tab-close-4:hover, #custom-tab-close-5:hover {
-    background-color: rgba(255, 255, 255, 0.18);
+#custom-tab-close-3:hover, #custom-tab-close-4:hover, #custom-tab-close-5:hover,
+#custom-tab-close-0.active:hover, #custom-tab-close-1.active:hover, #custom-tab-close-2.active:hover,
+#custom-tab-close-3.active:hover, #custom-tab-close-4.active:hover, #custom-tab-close-5.active:hover {
+    background-color: rgba(235, 75, 75, 0.85);
     color: #ffffff;
 }
 
 #custom-tab-close-0.with-maximize, #custom-tab-close-1.with-maximize, #custom-tab-close-2.with-maximize,
 #custom-tab-close-3.with-maximize, #custom-tab-close-4.with-maximize, #custom-tab-close-5.with-maximize {
-    margin-left: -18px;
+    margin-left: -16px;
     margin-right: 0px;
 }
 
