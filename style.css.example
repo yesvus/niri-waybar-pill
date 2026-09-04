@@ -68,8 +68,6 @@ menu decoration {
    padding stacking) behind the uneven gaps between modules. */
 #custom-archmenu,
 #custom-launcher,
-#workspacesview,
-#niritabs,
 #claude,
 #performance,
 #connectivity,
@@ -78,6 +76,10 @@ menu decoration {
 #custom-battery,
 #clock {
     padding: 1px 10px;
+}
+
+#workspacesview {
+    padding: 1px 2px 1px 10px;
 }
 
 /* Everything nested inside a group: no outer padding of its own. Small
@@ -147,15 +149,27 @@ window#waybar.empty #windowpill {
    ========================================================================== */
 #niritabs {
     background-color: transparent;
+    padding: 1px 6px 1px 0px;
 }
 
 /* Pagination arrows: icon only, no button box */
-#custom-page-prev,
+#custom-page-prev {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0 4px 0 0;
+    margin: 0;
+    font-size: 9pt;
+    font-weight: normal;
+    color: rgba(222, 222, 222, 0.35);
+    transition: all 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
 #custom-page-next {
     background-color: transparent;
     border: none;
     border-radius: 0;
-    padding: 0 5px;
+    padding: 0 4px;
     margin: 0;
     font-size: 9pt;
     font-weight: normal;
