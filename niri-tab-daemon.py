@@ -14,9 +14,9 @@ import html
 
 SHM_DIR = "/dev/shm/niri-tabs"
 NUM_SLOTS = 6
-MAX_TITLE_LEN = 10
+MAX_TITLE_LEN = 8
 
-def fade_title(title, max_len=10):
+def fade_title(title, max_len=8):
     title = html.escape(title)
     if len(title) <= max_len:
         return title
