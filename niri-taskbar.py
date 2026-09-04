@@ -57,16 +57,17 @@ def format_tab(w, max_len=9):
 
     label = html.escape(f" {icon} {short} ")
 
+    # Use hex-based color specifications that Pango can parse natively
     if is_focused:
         return (
-            f'<span background="rgba(255,255,255,0.22)" '
+            f'<span background="#ffffff38" '
             f'foreground="#ffffff" '
             f'font_weight="bold">{label}</span>'
         )
     else:
         return (
-            f'<span background="rgba(255,255,255,0.06)" '
-            f'foreground="rgba(222,222,222,0.60)">{label}</span>'
+            f'<span background="#ffffff12" '
+            f'foreground="#abb2bf">{label}</span>'
         )
 
 last_output = None
@@ -126,7 +127,7 @@ def render_taskbar():
     rendered = " ".join(tabs)
 
     if overflow > 0:
-        rendered += f' <span foreground="rgba(222,222,222,0.40)">+{overflow}</span>'
+        rendered += f' <span foreground="#888888">+{overflow}</span>'
 
     tooltip_lines = [
         f"{'●' if w.get('is_focused') else '○'} [{w.get('id')}] {w.get('title') or w.get('app_id')}"
