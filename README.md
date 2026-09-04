@@ -6,39 +6,60 @@ Designed for users who want borderless, CSD-free terminal windows without sacrif
 
 ---
 
-## Features
+## What's Included
 
-### 1. Compact Windows-style Taskbar (`wlr/taskbar`)
-* **Individual Window Instances:** Every window appears as its own compact pill button (not grouped into a single app bundle like macOS).
-* **Reduced Border Radius:** Sleek, subtle 5px radius instead of oversized round bubbles.
-* **Overflow Handling:** Compact truncation (`max-length: 18`) with tooltips showing full titles.
-* **Direct Actions:**
-  * **Left Click:** Activate / focus that window (`niri msg action focus-window`).
-  * **Middle Click:** Close that window (`niri msg action close-window`).
+### 1. Workspace-Filtered Compact Taskbar (`niri-taskbar.py`) ⭐ *(New)*
+* **Workspace-Aware:** Only renders windows that belong to the **currently active workspace** (doesn't dump all windows from other workspaces onto your bar).
+* **Non-Grouped (Windows Style):** Every window is its own separate, distinct pill (not merged into one app bundle like macOS).
+* **Compact & Fixed Width:** Each tab is formatted to a fixed width (icon + truncated title), giving your bar an organized, neat aesthetic.
+* **Focused Window Glow:** The active window is highlighted with bold text and a brighter pill background.
+* **Overflow Protection:** Automatically caps visible tabs to 6 and displays a `+N` indicator if your workspace ribbon has many windows, ensuring Waybar never exceeds screen width.
+* **Mouse Interactions:**
+  * **Left Click:** Opens Niri overview (`toggle-overview`) to click and jump directly to any window.
+  * **Scroll Up / Down:** Cycles focus to the left/right window on the workspace ribbon.
+  * **Right Click:** Closes the active window.
 
-### 2. Floating Window Pill (`niri-wincount.py` + controls)
-* **Active Window Title:** Displays the focused window name cleanly.
-* **Workspace Window Radar:** Event-driven counter (`󱂬 <count>`) tracking how many windows are currently on your scrollable workspace strip.
-* **Instant Window Controls:** Integrated Maximize (`󰘖`) and Close (``) buttons directly in Waybar.
-* **Zero CPU Overhead:** The Python daemon listens directly to `niri msg -j event-stream` and only computes when window/workspace events occur.
+### 2. Workspace Window Counter (`niri-wincount.py`)
+* Event-driven radar daemon (`󱂬 <count>`) tracking how many windows are currently in your scrollable workspace strip.
+* Zero CPU overhead (listens directly to `niri msg -j event-stream`).
 
 ---
 
 ## Installation
 
-### 1. Setup the Script
-Copy the event stream counter script to your Waybar config directory:
+### 1. Copy the Script
 ```bash
-cp niri-wincount.py ~/.config/waybar/
-chmod +x ~/.config/waybar/niri-wincount.py
+cp niri-taskbar.py ~/.config/waybar/
+chmod +x ~/.config/waybar/niri-taskbar.py
 ```
 
-### 2. Configure Waybar
-Add the desired module (or both!) into your `~/.config/waybar/config.jsonc`:
-See [config.jsonc.example](config.jsonc.example).
+### 2. Configure Waybar (`~/.config/waybar/config.jsonc`)
+Add `"custom/niritaskbar"` to your `modules-left`:
 
-### 3. Add Styling
-Append the CSS rules from [style.css.example](style.css.example) into your `~/.config/waybar/style.css`.
+```jsonc
+"modules-left": ["custom/archmenu", "custom/launcher", "group/workspacesview", "custom/niritaskbar"],
+
+"custom/niritaskbar": {
+    "exec": "~/.config/waybar/niri-taskbar.py",
+    "return-type": "json",
+    "format": "{}",
+    "tooltip": true,
+    "on-click": "niri msg action toggle-overview",
+    "on-click-right": "niri msg action close-window",
+    "on-scroll-up": "niri msg action focus-column-left",
+    "on-scroll-down": "niri msg action focus-column-right"
+}
+```
+
+### 3. Add Waybar CSS (`~/.config/waybar/style.css`)
+```css
+#custom-niritaskbar {
+    background-color: transparent;
+    font-size: 8pt;
+    font-weight: normal;
+    padding: 1px 10px;
+}
+```
 
 ### 4. Reload Waybar
 ```bash
