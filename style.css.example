@@ -307,9 +307,7 @@ window#waybar.empty #windowpill {
     margin-bottom: 2px;
     padding: 0;
     min-width: 14px;
-    max-width: 14px;
     min-height: 14px;
-    max-height: 14px;
     font-size: 6.5pt;
     font-weight: normal;
     color: rgba(222, 222, 222, 0.40);
@@ -352,9 +350,7 @@ window#waybar.empty #windowpill {
     margin-bottom: 2px;
     padding: 0;
     min-width: 14px;
-    max-width: 14px;
     min-height: 14px;
-    max-height: 14px;
     font-size: 8pt;
     font-weight: normal;
     color: rgba(222, 222, 222, 0.40);
